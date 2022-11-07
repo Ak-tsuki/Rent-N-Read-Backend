@@ -5,7 +5,8 @@ app.use(express.json());
 app.use(cors());
 
 // Importing Database Connection
-require('./config/dbconnection');
+const connectDB = require('./config/dbconnection');
+connectDB();
 
 app.listen(90);
 
