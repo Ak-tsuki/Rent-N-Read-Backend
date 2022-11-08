@@ -49,4 +49,29 @@ router.post("/user/register", (req, res) => {
     .catch();
 });
 
+// For Login Process of User
+router.post("/user/login", (req, res) => {
+  const email = req.body.email;
+  const password = req.body.password;
+
+  User.findOne({ email: email })
+    .then((user_data) => {
+      if (user_data == null) {
+        res.json({ msg: "Invalid Credentials!!!" });
+        return;
+      }
+      bcryptjs.compare(password, user_data.password, (e, result) => {
+        if (result == false) {
+          res.json({ msg: "Invalid Credentials!!!" });
+          return;
+        }
+        //It creates token for the logged in user...
+        //The token stores the logged in user`s ID...
+        const token = jwt.sign({ userId: user_data._id }, "rentnreaduser");
+        res.status(201).json({ token: token, userType: user_data.userType });
+      });
+    })
+    .catch();
+});
+
 module.exports = router;
