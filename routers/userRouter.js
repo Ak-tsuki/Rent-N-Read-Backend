@@ -14,7 +14,9 @@ router.post("/user/register", (req, res) => {
   User.findOne({ username: username })
     .then((user_data) => {
       if (user_data != null) {
-        res.json({ msg: "Username Already Exists", success: "exists" });
+        res
+          .status(200)
+          .json({ msg: "Username Already Exists", success: "exists" });
         return;
       }
       const username = req.body.username;
@@ -33,10 +35,14 @@ router.post("/user/register", (req, res) => {
         data
           .save()
           .then(() => {
-            res.json({ msg: "User Registered Successfully", success: true });
+            res
+              .status(201)
+              .json({ msg: "User Registered Successfully", success: true });
           })
           .catch((e) => {
-            res.json({ msg: "Something Went Wrong, Please Try Again!! " });
+            res
+              .status(400)
+              .json({ msg: "Something Went Wrong, Please Try Again!! " });
           });
       });
     })
