@@ -41,7 +41,7 @@ router.post("/user/register", (req, res) => {
           })
           .catch((e) => {
             res
-              .status(400)
+              .status(401)
               .json({ msg: "Something Went Wrong, Please Try Again!! " });
           });
       });
@@ -57,12 +57,12 @@ router.post("/user/login", (req, res) => {
   User.findOne({ email: email })
     .then((user_data) => {
       if (user_data == null) {
-        res.json({ msg: "Invalid Credentials!!!" });
+        res.status(404).json({ msg: "Invalid Credentials!!!" });
         return;
       }
       bcryptjs.compare(password, user_data.password, (e, result) => {
         if (result == false) {
-          res.json({ msg: "Invalid Credentials!!!" });
+          res.status(401).json({ msg: "Invalid Credentials!!!" });
           return;
         }
         //It creates token for the logged in user...

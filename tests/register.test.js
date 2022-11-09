@@ -77,7 +77,7 @@ test("Sign up testing for a user not in Json Format", async () => {
       "password: 12344342"
     )
     .expect("Content-Type", /json/)
-    .expect(400)
+    .expect(401)
     .then((res) => {
       expect.arrayContaining([
         expect.objectContaining({
