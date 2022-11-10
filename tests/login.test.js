@@ -6,7 +6,7 @@ test("Sign in testing for user with incorrect password", async () => {
   await request(app)
     .post("/user/login")
     .send({
-      email: "ts12@gmail.com",
+      username: "tsering",
       password: "12345567",
     })
     .expect("Content-Type", /json/)
@@ -21,12 +21,32 @@ test("Sign in testing for user with incorrect password", async () => {
     });
 });
 
-// Login user with correct email and password
-test("Sign in testing for user with correct email and password", async () => {
+// Login user with correct username and password
+test("Sign in testing for user with correct username and password", async () => {
   await request(app)
     .post("/user/login")
     .send({
-      email: "ts12@gmail.com",
+      username: "tsering",
+      password: "1234556",
+    })
+    .expect("Content-Type", /json/)
+    .expect(201)
+    .then((res) => {
+      expect.arrayContaining([
+        expect.objectContaining({
+          token: expect.any(String),
+          userType: expect.any(String),
+        }),
+      ]);
+    });
+});
+
+// Login user with incorrect username
+test("Sign in testing for user with incorrect username", async () => {
+  await request(app)
+    .post("/user/login")
+    .send({
+      username: "tsering1234t53",
       password: "1234556",
     })
     .expect("Content-Type", /json/)
@@ -42,32 +62,12 @@ test("Sign in testing for user with correct email and password", async () => {
 });
 
 // Login user with incorrect email
-test("Sign in testing for user with incorrect email", async () => {
+test("Sign in testing for user with incorrect username with response code 404", async () => {
   await request(app)
     .post("/user/login")
     .send({
-      email: "ts12@gmail.comcvx",
-      password: "12345567",
-    })
-    .expect("Content-Type", /json/)
-    .expect(201)
-    .then((res) => {
-      expect.arrayContaining([
-        expect.objectContaining({
-          token: expect.any(String),
-          userType: expect.any(String),
-        }),
-      ]);
-    });
-});
-
-// Login user with incorrect email
-test("Sign in testing for user with incorrect email with response code 404", async () => {
-  await request(app)
-    .post("/user/login")
-    .send({
-      email: "ts12@gmail.comcvx",
-      password: "12345567",
+      username: "tsering1234t53",
+      password: "1234556",
     })
     .expect("Content-Type", /json/)
     .expect(404)
@@ -85,7 +85,7 @@ test("Sign in testing for user with incorrect password with response code 401", 
   await request(app)
     .post("/user/login")
     .send({
-      email: "ts12@gmail.com",
+      username: "tsering",
       password: "12345567",
     })
     .expect("Content-Type", /json/)
