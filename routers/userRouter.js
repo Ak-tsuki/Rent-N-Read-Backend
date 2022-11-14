@@ -74,4 +74,20 @@ router.post("/user/login", (req, res) => {
     .catch();
 });
 
+router.get("/user/get", auth.userGuard, (req, res) => {
+  res.status(201).json({
+    success: true,
+    data: {
+      first_name: req.userInfo.firstname,
+      address: req.userInfo.address,
+      contact_no: req.userInfo.phone,
+      gender: req.userInfo.gender,
+      username: req.userInfo.username,
+      email: req.userInfo.email,
+      profile_pic: req.userInfo.profile_img,
+      userType: req.userInfo.userType,
+    },
+  });
+});
+
 module.exports = router;
