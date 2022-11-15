@@ -21,10 +21,12 @@ const Book = new mongoose.Schema({
     type: String,
     required: true,
   },
-  category: {
-    type: String,
-    required: true,
-  },
+  category: [
+    {
+      type: String,
+      required: true,
+    },
+  ],
   rent_cost_perday: {
     type: Number,
     required: true,

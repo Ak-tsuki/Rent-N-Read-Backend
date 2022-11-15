@@ -24,7 +24,7 @@ router.post(
     const rich_desc = req.body.rich_desc;
     const desc = req.body.desc;
     const author = req.body.author;
-    const category = req.body.category;
+    const category = req.body.category.split(",");
     const rent_cost_perday = req.body.rent_cost_perday;
     const bookOwner = req.userInfo._id;
 
