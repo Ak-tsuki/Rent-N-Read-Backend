@@ -5,31 +5,31 @@ const Book = new mongoose.Schema({
   book_pic: {
     type: String,
   },
-  book_name: {
+  name: {
     type: String,
     required: true,
   },
-  book_rich_desc: {
+  rich_desc: {
     type: String,
     required: true,
   },
-  book_desc: {
+  desc: {
     type: String,
     required: true,
   },
-  book_author: {
+  author: {
     type: String,
     required: true,
   },
-  book_category: {
+  category: {
     type: String,
     required: true,
   },
-  book_rent_cost_perday: {
+  rent_cost_perday: {
     type: Number,
     required: true,
   },
-  book_status: {
+  status: {
     type: String,
     default: "Requested",
   },

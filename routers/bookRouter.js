@@ -20,22 +20,22 @@ router.post(
     }
 
     const book_pic = req.file.filename;
-    const book_name = req.body.book_name;
-    const book_rich_desc = req.body.book_rich_desc;
-    const book_desc = req.body.book_desc;
-    const book_author = req.body.book_author;
-    const book_category = req.body.book_category;
-    const book_rent_cost_perday = req.body.book_rent_cost_perday;
+    const name = req.body.name;
+    const rich_desc = req.body.rich_desc;
+    const desc = req.body.desc;
+    const author = req.body.author;
+    const category = req.body.category;
+    const rent_cost_perday = req.body.rent_cost_perday;
     const bookOwner = req.userInfo._id;
 
     const data = new Book({
       book_pic: book_pic,
-      book_name: book_name,
-      book_rich_desc: book_rich_desc,
-      book_desc: book_desc,
-      book_author: book_author,
-      book_category: book_category,
-      book_rent_cost_perday: book_rent_cost_perday,
+      name: name,
+      rich_desc: rich_desc,
+      desc: desc,
+      author: author,
+      category: category,
+      rent_cost_perday: rent_cost_perday,
       bookOwner: bookOwner,
     });
     data
