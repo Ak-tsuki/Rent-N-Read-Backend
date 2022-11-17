@@ -134,4 +134,48 @@ router.get("/book/getrequested", auth.adminGuard, (req, res) => {
     });
 });
 
+// router to approve book
+router.put("/book/approve", auth.adminGuard, (req, res) => {
+  Book.updateOne(
+    {
+      _id: req.body.id,
+    },
+    {
+      status: "Approved",
+    }
+  )
+    .then(() => {
+      res.status(201).json({
+        msg: "Approved successful",
+      });
+    })
+    .catch((e) => {
+      res.status(400).json({
+        msg: e,
+      });
+    });
+});
+// router to reject book
+router.put("/book/reject", auth.adminGuard, (req, res) => {
+  Book.updateOne(
+    {
+      _id: req.body.id,
+    },
+    {
+      status: "Rejected",
+    }
+  )
+    .then(() => {
+      res.status(201).json({
+        msg: "Rejected successful",
+      });
+    })
+    .catch((e) => {
+      res.status(400).json({
+        msg: e,
+      });
+    });
+});
+
+
 module.exports = router;
