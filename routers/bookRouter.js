@@ -54,6 +54,25 @@ router.post(
   }
 );
 
+// route to get books by bookowner
+router.get("/book/getbyOwner", auth.userGuard, (req, res) => {
+  Book.find({ bookOwner: req.userInfo._id })
+    .sort({
+      createdAt: "desc",
+    })
+    .then((book) => {
+      res.status(201).json({
+        success: true,
+        data: book,
+      });
+    })
+    .catch((e) => {
+      res.status(400).json({
+        msg: e,
+      });
+    });
+});
+
 // route to get books by all user
 router.get("/book/get", (req, res) => {
   Book.find()
@@ -77,6 +96,29 @@ router.get("/book/getone/:id", (req, res) => {
   Book.findOne({
     _id: req.params.id,
   })
+    .then((book) => {
+      if (book != null) {
+        res.status(200).json({
+          success: true,
+          data: book,
+        });
+      }
+    })
+    .catch((e) => {
+      res.status(400).json({
+        msg: e,
+      });
+    });
+});
+
+// route to get all requested books by admin
+router.get("/book/getrequested", auth.adminGuard, (req, res) => {
+  Book.find({
+    status: "Requested",
+  })
+    .sort({
+      createdAt: "desc",
+    })
     .then((book) => {
       if (book != null) {
         res.status(200).json({
