@@ -33,7 +33,7 @@ const Book = new mongoose.Schema({
   },
   status: {
     type: String,
-    default: "Requested",
+    default: "Pending",
   },
   bookOwner: {
     type: mongoose.Schema.Types.ObjectId,
