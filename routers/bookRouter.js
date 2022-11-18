@@ -112,10 +112,9 @@ router.get("/book/getone/:id", (req, res) => {
 });
 
 // route to get all requested books by admin
-router.get("/book/getrequested", auth.adminGuard, (req, res) => {
-  Book.find({
-    status: "Requested",
-  })
+router.get("/book/getallbyadmin", auth.adminGuard, (req, res) => {
+  Book.find()
+    .populate("bookOwner")
     .sort({
       createdAt: "desc",
     })
@@ -176,6 +175,5 @@ router.put("/book/reject", auth.adminGuard, (req, res) => {
       });
     });
 });
-
 
 module.exports = router;
