@@ -90,4 +90,15 @@ router.get("/user/get", auth.userGuard, (req, res) => {
   });
 });
 
+router.get("/user/getadmin", auth.adminGuard, (req, res) => {
+  res.status(201).json({
+    success: true,
+    data: {
+      username: req.adminInfo.username,
+      email: req.adminInfo.email,
+      userType: req.adminInfo.userType,
+    },
+  });
+});
+
 module.exports = router;

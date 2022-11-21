@@ -9,7 +9,14 @@ module.exports.userGuard = (req, res, next) => {
     const data = jwt.verify(token, "rentnreaduser");
     console.log(data);
     user
-      .findOne({ _id: data.userId }, { userType: "user" })
+      .findOne({
+        $and: [
+          { _id: data.userId },
+          {
+            userType: "user",
+          },
+        ],
+      })
       .then((udata) => {
         req.userInfo = udata;
         next();
@@ -29,12 +36,14 @@ module.exports.adminGuard = (req, res, next) => {
     const data = jwt.verify(token, "rentnreaduser");
     console.log(data);
     user
-      .findOne(
-        { _id: data.userId },
-        {
-          userType: "admin",
-        }
-      )
+      .findOne({
+        $and: [
+          { _id: data.userId },
+          {
+            userType: "admin",
+          },
+        ],
+      })
       .then((adata) => {
         req.adminInfo = adata;
         next();
