@@ -14,9 +14,11 @@ connectDB();
 // Importing Routers // Models are imported in routers
 const userRouter = require("./routers/userRouter");
 const bookRouter = require("./routers/bookRouter");
+const rentRouter = require("./routers/rentRouter");
 
 app.use(userRouter);
 app.use(bookRouter);
+app.use(rentRouter);
 
 app.listen(90);
 

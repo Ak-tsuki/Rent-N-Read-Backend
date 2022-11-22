@@ -8,6 +8,12 @@ const Rent = new mongoose.Schema(
       ref: "Book",
       required: true,
     },
+    start_date:{
+      type: String,
+    },
+    end_date:{
+      type: String,
+    },
     no_of_days: {
       type: Number,
       required: true,
@@ -21,15 +27,16 @@ const Rent = new mongoose.Schema(
       type: Number,
       required: true,
     },
-    order_status: {
+    rent_status: {
       type: String,
+      default: "Pending"
     },
     payment_method: {
       type: String,
-      required: true,
     },
     payment_status: {
       type: String,
+      default: "Pending",
     },
     contact_no: {
       type: String,
