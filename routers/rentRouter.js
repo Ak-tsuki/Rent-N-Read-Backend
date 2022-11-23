@@ -2,7 +2,7 @@ const express = require("express");
 const router = new express.Router();
 const auth = require("../middleware/auth");
 const Rent = require("../models/rentModel");
-const Book = require("../models/bookModel")
+const Book = require("../models/bookModel");
 
 // Route To Rent Books By User
 router.post("/rent/insert", auth.userGuard, (req, res) => {
@@ -14,7 +14,6 @@ router.post("/rent/insert", auth.userGuard, (req, res) => {
     userId: req.userInfo._id,
     total_price: req.body.total_price,
     payment_method: req.body.payment_method,
-    contact_no: req.body.contact_no,
     bookOwner: req.body.bookOwner,
   });
   data
@@ -77,22 +76,24 @@ router.put("/rent/reject", auth.userGuard, (req, res) => {
 
 //route to get rent request book by bookowner
 router.get("/rent/get", auth.userGuard, (req, res) => {
-  Rent.find({ $and: [{ bookOwner: req.userInfo._id },{rent_status: "Pending"}] })
-        .sort({
-          createdAt: "desc",
-        })
-        .populate("bookId")
-        .then((rent) => {
-          res.status(201).json({
-            success: true,
-            data: rent,
-          });
-        })
-        .catch((e) => {
-          res.status(400).json({
-            msg: e,
-          });
-        });
+  Rent.find({
+    $and: [{ bookOwner: req.userInfo._id }, { rent_status: "Pending" }],
+  })
+    .sort({
+      createdAt: "desc",
+    })
+    .populate("bookId")
+    .then((rent) => {
+      res.status(201).json({
+        success: true,
+        data: rent,
+      });
+    })
+    .catch((e) => {
+      res.status(400).json({
+        msg: e,
+      });
+    });
 });
 // get all rented books
 router.get("/rent/getall", auth.userGuard, (req, res) => {

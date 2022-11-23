@@ -12,10 +12,10 @@ const Rent = new mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
     },
-    start_date:{
+    start_date: {
       type: String,
     },
-    end_date:{
+    end_date: {
       type: String,
     },
     no_of_days: {
@@ -33,7 +33,7 @@ const Rent = new mongoose.Schema(
     },
     rent_status: {
       type: String,
-      default: "Pending"
+      default: "Pending",
     },
     payment_method: {
       type: String,
@@ -44,7 +44,6 @@ const Rent = new mongoose.Schema(
     },
     contact_no: {
       type: String,
-      required: true,
     },
   },
   {
