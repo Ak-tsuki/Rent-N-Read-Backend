@@ -8,6 +8,10 @@ const Rent = new mongoose.Schema(
       ref: "Book",
       required: true,
     },
+    bookOwner: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+    },
     start_date:{
       type: String,
     },

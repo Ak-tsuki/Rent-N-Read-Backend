@@ -2,74 +2,117 @@ const express = require("express");
 const router = new express.Router();
 const auth = require("../middleware/auth");
 const Rent = require("../models/rentModel");
+const Book = require("../models/bookModel")
 
 // Route To Rent Books By User
 router.post("/rent/insert", auth.userGuard, (req, res) => {
-    const data= Rent({
-        bookId: req.body.bookId,
-        start_date: req.body.start_date,
-        end_date: req.body.end_date,
-        no_of_days: req.body.no_of_days,
-        userId: req.userInfo._id,
-        total_price: req.body.total_price,
-        payment_method: req.body.payment_method,
-        contact_no: req.body.contact_no,
-    });
-    data.save()
-    .then(()=>{
-        res.status(201).json({
-            success: true,
-            msg: "Book Rented Successfully",
-        });
+  const data = Rent({
+    bookId: req.body.bookId,
+    start_date: req.body.start_date,
+    end_date: req.body.end_date,
+    no_of_days: req.body.no_of_days,
+    userId: req.userInfo._id,
+    total_price: req.body.total_price,
+    payment_method: req.body.payment_method,
+    contact_no: req.body.contact_no,
+    bookOwner: req.body.bookOwner,
+  });
+  data
+    .save()
+    .then(() => {
+      res.status(201).json({
+        success: true,
+        msg: "Book Rented Successfully",
+      });
     })
-    .catch((e)=>{
-        res.json({
-            msg: e,
-        });
+    .catch((e) => {
+      res.json({
+        msg: e,
+      });
     });
 });
 
 // Router to approve Rent
 router.put("/rent/approve", auth.userGuard, (req, res) => {
-    Rent.updateOne(
-      {
-        _id: req.body.id,
-      },
-      {
-        rent_status: "Approved",
-      }
-    )
-      .then(() => {
-        res.status(201).json({
-          msg: "Rent Book Approved Successfully",
-        });
-      })
-      .catch((e) => {
-        res.status(400).json({
-          msg: e,
-        });
+  Rent.updateOne(
+    {
+      _id: req.body.id,
+    },
+    {
+      rent_status: "Approved",
+    }
+  )
+    .then(() => {
+      res.status(201).json({
+        msg: "Rent Book Approved Successfully",
       });
-  });
-  // router to reject book
-  router.put("/rent/reject", auth.userGuard, (req, res) => {
-    Rent.updateOne(
-      {
-        _id: req.body.id,
-      },
-      {
-        rent_status: "Rejected",
-      }
-    )
-      .then(() => {
-        res.status(201).json({
-          msg: "Rent Book Rejected Successfully",
-        });
-      })
-      .catch((e) => {
-        res.status(400).json({
-          msg: e,
-        });
+    })
+    .catch((e) => {
+      res.status(400).json({
+        msg: e,
       });
-  });
+    });
+});
+// router to reject book
+router.put("/rent/reject", auth.userGuard, (req, res) => {
+  Rent.updateOne(
+    {
+      _id: req.body.id,
+    },
+    {
+      rent_status: "Rejected",
+    }
+  )
+    .then(() => {
+      res.status(201).json({
+        msg: "Rent Book Rejected Successfully",
+      });
+    })
+    .catch((e) => {
+      res.status(400).json({
+        msg: e,
+      });
+    });
+});
 
+//route to get rent request book by bookowner
+router.get("/rent/get", auth.userGuard, (req, res) => {
+  Rent.find({ $and: [{ bookOwner: req.userInfo._id },{rent_status: "Pending"}] })
+        .sort({
+          createdAt: "desc",
+        })
+        .populate("bookId")
+        .then((rent) => {
+          res.status(201).json({
+            success: true,
+            data: rent,
+          });
+        })
+        .catch((e) => {
+          res.status(400).json({
+            msg: e,
+          });
+        });
+});
+// get all rented books
+router.get("/rent/getall", auth.userGuard, (req, res) => {
+  Rent.find()
+    .sort({
+      createdAt: "desc",
+    })
+    .populate("bookId")
+    .populate("userId")
+
+    .then((rent) => {
+      res.status(201).json({
+        success: true,
+        data: rent,
+      });
+    })
+    .catch((e) => {
+      res.json({
+        msg: e,
+      });
+    });
+});
 module.exports = router;
