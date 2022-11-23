@@ -74,7 +74,7 @@ router.put("/rent/reject", auth.userGuard, (req, res) => {
     });
 });
 
-//route to get rent request book by bookowner
+//route to get pending rent request book by bookowner
 router.get("/rent/get", auth.userGuard, (req, res) => {
   Rent.find({
     $and: [{ bookOwner: req.userInfo._id }, { rent_status: "Pending" }],
@@ -82,7 +82,7 @@ router.get("/rent/get", auth.userGuard, (req, res) => {
     .sort({
       createdAt: "desc",
     })
-    .populate("bookId")
+    .populate("bookId").populate("userId")
     .then((rent) => {
       res.status(201).json({
         success: true,
@@ -95,15 +95,15 @@ router.get("/rent/get", auth.userGuard, (req, res) => {
       });
     });
 });
-// get all rented books
-router.get("/rent/getall", auth.userGuard, (req, res) => {
-  Rent.find()
+//route to get all rent request book by bookowner
+router.get("/rent/getHistory", auth.userGuard, (req, res) => {
+  Rent.find({
+    $and: [{ bookOwner: req.userInfo._id }],
+  })
     .sort({
-      createdAt: "desc",
+      createdAt: "asc",
     })
-    .populate("bookId")
-    .populate("userId")
-
+    .populate("bookId").populate("userId")
     .then((rent) => {
       res.status(201).json({
         success: true,
@@ -111,7 +111,7 @@ router.get("/rent/getall", auth.userGuard, (req, res) => {
       });
     })
     .catch((e) => {
-      res.json({
+      res.status(400).json({
         msg: e,
       });
     });
