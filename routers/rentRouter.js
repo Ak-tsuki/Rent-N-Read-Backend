@@ -130,7 +130,7 @@ router.get("/rented_books/get", auth.userGuard, (req, res) => {
     .populate("bookId")
     .populate("userId")
     .then((rent) => {
-      res.status(201).json({
+      res.status(200).json({
         success: true,
         data: rent,
       });
