@@ -99,7 +99,10 @@ router.get("/rent/get", auth.userGuard, (req, res) => {
 //route to get all rent request book by bookowner
 router.get("/rent/getHistory", auth.userGuard, (req, res) => {
   Rent.find({
-    $and: [{ bookOwner: req.userInfo._id }, { $or: [{ rent_status: "Approved" }, { rent_status: "Rejected" }] }],
+    $and: [
+      { bookOwner: req.userInfo._id },
+      { $or: [{ rent_status: "Approved" }, { rent_status: "Rejected" }] },
+    ],
   })
     .sort({
       createdAt: "desc",
@@ -121,9 +124,7 @@ router.get("/rent/getHistory", auth.userGuard, (req, res) => {
 
 //route to get rented books by user
 router.get("/rented_books/get", auth.userGuard, (req, res) => {
-  Rent.find({
-    $and: [{ userId: req.userInfo._id }, { rent_status: "Approved" }],
-  })
+  Rent.find({ userId: req.userInfo._id })
     .sort({
       createdAt: "desc",
     })
