@@ -99,10 +99,10 @@ router.get("/rent/get", auth.userGuard, (req, res) => {
 //route to get all rent request book by bookowner
 router.get("/rent/getHistory", auth.userGuard, (req, res) => {
   Rent.find({
-    $and: [{ bookOwner: req.userInfo._id }],
+    $and: [{ bookOwner: req.userInfo._id }, { $or: [{ rent_status: "Approved" }, { rent_status: "Rejected" }] }],
   })
     .sort({
-      createdAt: "asc",
+      createdAt: "desc",
     })
     .populate("bookId")
     .populate("userId")
