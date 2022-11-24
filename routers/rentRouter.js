@@ -82,7 +82,8 @@ router.get("/rent/get", auth.userGuard, (req, res) => {
     .sort({
       createdAt: "desc",
     })
-    .populate("bookId").populate("userId")
+    .populate("bookId")
+    .populate("userId")
     .then((rent) => {
       res.status(201).json({
         success: true,
@@ -103,7 +104,8 @@ router.get("/rent/getHistory", auth.userGuard, (req, res) => {
     .sort({
       createdAt: "asc",
     })
-    .populate("bookId").populate("userId")
+    .populate("bookId")
+    .populate("userId")
     .then((rent) => {
       res.status(201).json({
         success: true,
@@ -116,4 +118,28 @@ router.get("/rent/getHistory", auth.userGuard, (req, res) => {
       });
     });
 });
+
+//route to get rented books by user
+router.get("/rented_books/get", auth.userGuard, (req, res) => {
+  Rent.find({
+    $and: [{ userId: req.userInfo._id }, { rent_status: "Approved" }],
+  })
+    .sort({
+      createdAt: "desc",
+    })
+    .populate("bookId")
+    .populate("userId")
+    .then((rent) => {
+      res.status(201).json({
+        success: true,
+        data: rent,
+      });
+    })
+    .catch((e) => {
+      res.status(400).json({
+        msg: e,
+      });
+    });
+});
+
 module.exports = router;
