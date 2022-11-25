@@ -143,4 +143,26 @@ router.get("/rented_books/get", auth.userGuard, (req, res) => {
     });
 });
 
+// Router to make Payment status Paid
+router.put("/rent/paymentPaid", auth.userGuard, (req, res) => {
+  Rent.updateOne(
+    {
+      _id: req.body.id,
+    },
+    {
+      payment_status: "Paid",
+    }
+  )
+    .then(() => {
+      res.status(201).json({
+        msg: "Payment Successful",
+      });
+    })
+    .catch((e) => {
+      res.status(400).json({
+        msg: e,
+      });
+    });
+});
+
 module.exports = router;

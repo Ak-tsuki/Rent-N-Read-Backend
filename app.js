@@ -15,10 +15,12 @@ connectDB();
 const userRouter = require("./routers/userRouter");
 const bookRouter = require("./routers/bookRouter");
 const rentRouter = require("./routers/rentRouter");
+const paymentRouter = require("./routers/paymentRouter");
 
 app.use(userRouter);
 app.use(bookRouter);
 app.use(rentRouter);
+app.use(paymentRouter);
 
 app.listen(90);
 

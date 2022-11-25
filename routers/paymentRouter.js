@@ -3,6 +3,7 @@ const router = express.Router();
 const auth = require("../middleware/auth");
 const axios = require("axios");
 
+// route to verify khalti otp
 router.get(
   "/payment/khalti/verification/:token/:amount/:secretKey",
   auth.userGuard,
@@ -26,3 +27,5 @@ router.get(
     }
   }
 );
+
+module.exports = router;
