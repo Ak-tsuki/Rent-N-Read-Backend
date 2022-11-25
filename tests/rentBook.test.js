@@ -42,3 +42,14 @@ test("Reject Rent Request By Book Owner", async () => {
     .expect("Content-Type", /json/)
     .expect(201);
 });
+
+test("Update payment status after payment process", async () => {
+  await request(app)
+    .put("/rent/paymentPaid")
+    .send({
+      id: "637dd267a798af498252f8b0",
+    })
+    .set("Authorization", token)
+    .expect("Content-Type", /json/)
+    .expect(201);
+});
