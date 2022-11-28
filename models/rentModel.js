@@ -47,7 +47,7 @@ const Rent = new mongoose.Schema(
       type: String,
     },
 
-    is_returned: {
+    is_available: {
       type: Boolean,
       default: false,
     },
