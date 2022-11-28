@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const { default: isBoolean } = require("validator/lib/isboolean");
 
 //Rent Book Model Collection Create
 const Rent = new mongoose.Schema(
@@ -44,6 +45,11 @@ const Rent = new mongoose.Schema(
     },
     contact_no: {
       type: String,
+    },
+
+    is_returned: {
+      type: Boolean,
+      default: false,
     },
   },
   {

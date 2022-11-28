@@ -165,4 +165,26 @@ router.put("/rent/paymentPaid", auth.userGuard, (req, res) => {
     });
 });
 
+// Router to return rented book
+router.put("/rent/returnBook", auth.userGuard, (req, res) => {
+  Rent.updateOne(
+    {
+      _id: req.body.id,
+    },
+    {
+      rent_status: "Returned",
+    }
+  )
+    .then(() => {
+      res.status(201).json({
+        msg: "Book returned Successful",
+      });
+    })
+    .catch((e) => {
+      res.status(400).json({
+        msg: e,
+      });
+    });
+});
+
 module.exports = router;
