@@ -178,8 +178,64 @@ router.put("/book/reject", auth.adminGuard, (req, res) => {
     });
 });
 
-
-
-
+router.put(
+  "/book/update",
+  auth.userGuard,
+  uploadBookImg.single("book_img"),
+  (req, res) => {
+    const name = req.body.name;
+    const rich_desc = req.body.rich_desc;
+    const desc = req.body.desc;
+    const author = req.body.author;
+    const category = req.body.category.split(",");
+    const rent_cost_perday = req.body.rent_cost_perday;
+    const id = req.body._id;
+    console.log(name);
+    if (req.file == undefined) {
+      Book.updateOne(
+        { _id: id },
+        {
+          name: name,
+          rich_desc: rich_desc,
+          desc: desc,
+          author: author,
+          category: category,
+          rent_cost_perday: rent_cost_perday,
+        }
+      )
+        .then(() => {
+          res
+            .status(201)
+            .json({ msg: "Book Updated Successfully", success: true });
+        })
+        .catch((e) => {
+          res.status(400).json({ msg: e });
+        });
+    } else {
+      Book.updateOne(
+        { _id: id },
+        {
+          name: name,
+          rich_desc: rich_desc,
+          desc: desc,
+          author: author,
+          category: category,
+          rent_cost_perday: rent_cost_perday,
+          book_pic: req.file.filename,
+        }
+      )
+        .then(() => {
+          res
+            .status(201)
+            .json({ msg: "Book Updated Successfully", success: true });
+        })
+        .catch((e) => {
+          res
+            .status(400)
+            .json({ msg: "Something Went Wrong, Please Try Again!!!" });
+        });
+    }
+  }
+);
 
 module.exports = router;
