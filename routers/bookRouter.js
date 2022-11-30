@@ -178,6 +178,7 @@ router.put("/book/reject", auth.adminGuard, (req, res) => {
     });
 });
 
+//Router To Update Book
 router.put(
   "/book/update",
   auth.userGuard,
@@ -237,5 +238,19 @@ router.put(
     }
   }
 );
+
+//Router To Delete Book
+router.delete("/book/delete/:bookId", auth.userGuard, (req, res) => {
+  console.log(req.params.bookId);
+  Book.deleteOne({ _id: req.params.bookId })
+    .then(() => {
+      res.status(201).json({ msg: "Book Deleted Successfully", success: true });
+    })
+    .catch((e) => {
+      res
+        .status(400)
+        .json({ msg: "Something Went Wrong, Please Try Again!!!" });
+    });
+});
 
 module.exports = router;
