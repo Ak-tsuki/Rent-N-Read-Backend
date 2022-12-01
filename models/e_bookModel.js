@@ -5,6 +5,12 @@ const EBook = new mongoose.Schema({
   book_pic: {
     type: String,
   },
+
+  name: {
+    type: String,
+    required: true,
+  },
+
   e_book: {
     type: String,
     required: true,
@@ -27,7 +33,7 @@ const EBook = new mongoose.Schema({
     type: Number,
     required: true,
   },
-  price:{
+  price: {
     type: Number,
     required: true,
   },
