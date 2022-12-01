@@ -5,13 +5,13 @@ const router = express.Router();
 const Book = require("../models/bookModel");
 
 const auth = require("../middleware/auth");
-const uploadBookImg = require("../file/bookImg");
+const uploadFile = require("../file/uploadFile");
 
 // route to add book by bookowner
 router.post(
   "/book/add",
   auth.userGuard,
-  uploadBookImg.single("book_img"),
+  uploadFile.single("book_img"),
   (req, res) => {
     if (req.file == undefined) {
       return res.status(401).json({
@@ -182,7 +182,7 @@ router.put("/book/reject", auth.adminGuard, (req, res) => {
 router.put(
   "/book/update",
   auth.userGuard,
-  uploadBookImg.single("book_img"),
+  uploadFile.single("book_img"),
   (req, res) => {
     const name = req.body.name;
     const rich_desc = req.body.rich_desc;
