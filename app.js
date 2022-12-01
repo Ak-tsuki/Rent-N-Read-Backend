@@ -18,12 +18,14 @@ const bookRouter = require("./routers/bookRouter");
 const audiobookRouter = require("./routers/audiobookRouter");
 const rentRouter = require("./routers/rentRouter");
 const paymentRouter = require("./routers/paymentRouter");
+const eBookRouter = require("./routers/eBookRouter");
 
 app.use(userRouter);
 app.use(bookRouter);
 app.use(audiobookRouter);
 app.use(rentRouter);
 app.use(paymentRouter);
+app.use(eBookRouter);
 
 app.listen(90);
 
