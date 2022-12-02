@@ -31,7 +31,7 @@ test("Add EBook with book image and pdf file", async () => {
     });
 });
 
-// Adding EBook by Admin with book image and pdf
+// Adding EBook by Admin without book image
 test("Add EBook without book image", async () => {
   await request(app)
     .post("/ebook/add")
@@ -48,13 +48,13 @@ test("Add EBook without book image", async () => {
     .then((res) => {
       expect.arrayContaining([
         expect.objectContaining({
-          msg: "Invalid Image formate",
+          msg: "Invalid Image format",
         }),
       ]);
     });
 });
 
-// Adding EBook by Admin with book image and pdf
+// Adding EBook by Admin without pdf
 test("Add EBook without pdf file", async () => {
   await request(app)
     .post("/ebook/add")
@@ -71,7 +71,7 @@ test("Add EBook without pdf file", async () => {
     .then((res) => {
       expect.arrayContaining([
         expect.objectContaining({
-          msg: "Invalid Ebook formate",
+          msg: "Invalid Ebook format",
         }),
       ]);
     });
