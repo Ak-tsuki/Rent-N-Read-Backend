@@ -24,12 +24,12 @@ router.post(
   (req, res) => {
     if (req.files.book_img == undefined) {
       return res.status(401).json({
-        msg: "Invalid Image formate",
+        msg: "Invalid Image format",
       });
     }
     if (req.files.e_book == undefined) {
       return res.status(401).json({
-        msg: "Invalid Ebook formate",
+        msg: "Invalid Ebook format",
       });
     }
 
