@@ -5,13 +5,10 @@ const EBook = new mongoose.Schema({
   book_pic: {
     type: String,
   },
-
-  name: {
-    type: String,
-    required: true,
-  },
-
   e_book: {
+    type: String,
+  },
+  name: {
     type: String,
     required: true,
   },
