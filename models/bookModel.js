@@ -39,6 +39,11 @@ const Book = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",
   },
+
+  is_available: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 module.exports = mongoose.model("Book", Book);

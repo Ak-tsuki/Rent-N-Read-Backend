@@ -46,11 +46,6 @@ const Rent = new mongoose.Schema(
     contact_no: {
       type: String,
     },
-
-    is_available: {
-      type: Boolean,
-      default: false,
-    },
   },
   {
     timestamps: true,

@@ -173,7 +173,6 @@ router.put("/rent/returnBook", auth.userGuard, (req, res) => {
     },
     {
       rent_status: "Returned",
-      is_available: true,
     }
   )
     .then(() => {
