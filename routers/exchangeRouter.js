@@ -115,9 +115,60 @@ router.put("/exchange_book", auth.userGuard, (req, res) => {
     });
 });
 
-// get all exchange requests by bookOwner
+// // get all exchange requests by bookOwner
+// router.get("/book_owner/exchange_requests", auth.userGuard, (req, res) => {
+//   Exchange.find({ bookOwnerId: req.userInfo._id })
+//     .populate("requestedUserId")
+//     .populate("bookId")
+//     .populate("exchangeBookId")
+//     .sort({
+//       createdAt: "desc",
+//     })
+//     .then((book) => {
+//       res.status(201).json({
+//         success: true,
+//         data: book,
+//       });
+//     })
+//     .catch((e) => {
+//       res.status(400).json({
+//         msg: e,
+//       });
+//     });
+// });
+
+// get all pending exchange requests by bookOwner
 router.get("/book_owner/exchange_requests", auth.userGuard, (req, res) => {
-  Exchange.find({ bookOwnerId: req.userInfo._id })
+  Exchange.find({
+    $and: [{ bookOwnerId: req.userInfo._id }, { exchangeStatus: "Pending" }],
+  })
+    .populate("requestedUserId")
+    .populate("bookId")
+    .populate("exchangeBookId")
+    .sort({
+      createdAt: "desc",
+    })
+    .then((book) => {
+      res.status(201).json({
+        success: true,
+        data: book,
+      });
+    })
+    .catch((e) => {
+      res.status(400).json({
+        msg: e,
+      });
+    });
+});
+
+//route to get all exchange request history book by bookowner
+router.get("/book_owner/exchange_history", auth.userGuard, (req, res) => {
+  Exchange.find({
+    $and: [
+      { bookOwnerId: req.userInfo._id },
+      { $or: [{ exchangeStatus: "Approved" }, { exchangeStatus: "Rejected" }] },
+    ],
+  })
     .populate("requestedUserId")
     .populate("bookId")
     .populate("exchangeBookId")
