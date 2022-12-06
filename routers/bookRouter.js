@@ -253,4 +253,46 @@ router.delete("/book/delete/:bookId", auth.userGuard, (req, res) => {
     });
 });
 
+router.put("/book/isAvailable", auth.userGuard, (req, res) => {
+  Book.updateOne(
+    {
+      _id: req.body.id,
+    },
+    {
+      is_available: true,
+    }
+  )
+    .then(() => {
+      res.status(201).json({
+        msg: "book is available",
+      });
+    })
+    .catch((e) => {
+      res.status(400).json({
+        msg: e,
+      });
+    });
+});
+
+router.put("/book/isNotAvailable", auth.userGuard, (req, res) => {
+  Book.updateOne(
+    {
+      _id: req.body.id,
+    },
+    {
+      is_available: false,
+    }
+  )
+    .then(() => {
+      res.status(201).json({
+        msg: "Book is not available",
+      });
+    })
+    .catch((e) => {
+      res.status(400).json({
+        msg: e,
+      });
+    });
+});
+
 module.exports = router;

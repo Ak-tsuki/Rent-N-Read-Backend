@@ -42,7 +42,7 @@ const Book = new mongoose.Schema({
 
   is_available: {
     type: Boolean,
-    default: false,
+    default: true,
   },
 });
 
