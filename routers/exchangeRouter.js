@@ -102,13 +102,19 @@ router.put("/exchange_book", auth.userGuard, (req, res) => {
         {
           bookOwner: req.userInfo._id,
         }
-      );
+      )
+        .then(() => {
+          res.status(201).json({
+            msg: "Book Exchanged Successfully",
+          });
+        })
+        .catch((e) => {
+          res.status(400).json({
+            msg: e,
+          });
+        });
     })
-    .then(() => {
-      res.status(201).json({
-        msg: "Book Exchanged Successfully",
-      });
-    })
+
     .catch((e) => {
       res.status(400).json({
         msg: e,
