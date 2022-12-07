@@ -295,4 +295,24 @@ router.put("/book/isNotAvailable", auth.userGuard, (req, res) => {
     });
 });
 
+// get book by author (recommedation book)
+router.get("/book/getauthor", (req, res) => {
+  Book.find({
+    author: req.body.author,
+  })
+    .then((book) => {
+      if (book != null) {
+        res.status(200).json({
+          success: true,
+          data: book,
+        });
+      }
+    })
+    .catch((e) => {
+      res.status(400).json({
+        msg: e,
+      });
+    });
+});
+
 module.exports = router;
