@@ -296,9 +296,9 @@ router.put("/book/isNotAvailable", auth.userGuard, (req, res) => {
 });
 
 // get book by author (recommedation book)
-router.get("/book/getauthor", (req, res) => {
+router.get("/book/getauthor/:author", (req, res) => {
   Book.find({
-    author: req.body.author,
+    author: req.params.author,
   })
     .then((book) => {
       if (book != null) {
