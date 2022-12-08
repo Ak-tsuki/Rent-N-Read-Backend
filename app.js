@@ -20,6 +20,7 @@ const rentRouter = require("./routers/rentRouter");
 const paymentRouter = require("./routers/paymentRouter");
 const eBookRouter = require("./routers/eBookRouter");
 const exchangeRouter = require("./routers/exchangeRouter");
+const recommendationRouter = require("./routers/recommendationRouter");
 
 app.use(userRouter);
 app.use(bookRouter);
@@ -28,6 +29,8 @@ app.use(rentRouter);
 app.use(paymentRouter);
 app.use(eBookRouter);
 app.use(exchangeRouter);
+app.use(recommendationRouter);
+
 
 app.listen(90);
 
