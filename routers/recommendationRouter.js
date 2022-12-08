@@ -14,17 +14,14 @@ router.get("/book/recommendation", auth.userGuard, (req, res) => {
     .sort({ _id: -1 })
     .then((rent) => {
       if (rent != null) {
-        Book.findOne({ _id: rent.bookId })
-        .then((mainbook) => {
-            console.log(mainbook.category);
-          Book.find({ category: { $in: mainbook.category } }).then(
-            (book) => {
-              res.status(201).json({
-                success: true,
-                data: book,
-              });
-            }
-          );
+        Book.findOne({ _id: rent.bookId }).then((mainbook) => {
+          console.log(mainbook.category);
+          Book.find({ category: { $in: mainbook.category } }).then((book) => {
+            res.status(200).json({
+              success: true,
+              data: book,
+            });
+          });
         });
       }
     })
