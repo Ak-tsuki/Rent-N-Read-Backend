@@ -109,4 +109,44 @@ router.get("/ebook/get", (req, res) => {
     });
 });
 
+// route to get one ebook by all user
+router.get("/ebook/getone/:id", (req, res) => {
+  EBook.findOne({
+    _id: req.params.id,
+  })
+    .then((ebook) => {
+      if (ebook != null) {
+        res.status(200).json({
+          success: true,
+          data: ebook,
+        });
+      }
+    })
+    .catch((e) => {
+      res.status(400).json({
+        msg: e,
+      });
+    });
+});
+
+// get ebook by author (recommedation book)
+router.get("/ebook/getauthor/:author", (req, res) => {
+  EBook.find({
+    author: req.params.author,
+  })
+    .then((ebook) => {
+      if (ebook != null) {
+        res.status(200).json({
+          success: true,
+          data: ebook,
+        });
+      }
+    })
+    .catch((e) => {
+      res.status(400).json({
+        msg: e,
+      });
+    });
+});
+
 module.exports = router;
