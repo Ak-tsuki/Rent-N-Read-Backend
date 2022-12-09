@@ -10,25 +10,32 @@ const Buy = new mongoose.Schema(
       required: true,
     },
 
+    bookOwner: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+    },
+    bought_date: {
+      type: String,
+    },
     userId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
       required: true,
     },
-
-    bought_date: {
+    payment_method: {
       type: String,
+      default: "eSewa",
     },
-
     payment_status: {
       type: String,
-      default: "Pending",
+      default: "Paid",
+    },
+    contact_no: {
+      type: String,
     },
   },
-
   {
     timestamps: true,
   }
 );
-
 module.exports = mongoose.model("Buy", Buy);

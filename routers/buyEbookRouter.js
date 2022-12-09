@@ -8,6 +8,9 @@ router.post("/buy/insert", auth.userGuard, (req, res) => {
   const data = Buy({
     ebookId: req.body.ebookId,
     userId: req.userInfo._id,
+    bought_date: req.body.bought_date,
+    payment_method: req.body.payment_method,
+    bookOwner: req.body.bookOwner,
   });
   data
     .save()
@@ -18,7 +21,7 @@ router.post("/buy/insert", auth.userGuard, (req, res) => {
       });
     })
     .catch((e) => {
-      res.json({
+      res.status(400).json({
         msg: e,
       });
     });
@@ -45,3 +48,5 @@ router.put("/buy/paymentPaid", auth.userGuard, (req, res) => {
       });
     });
 });
+
+module.exports = router;
