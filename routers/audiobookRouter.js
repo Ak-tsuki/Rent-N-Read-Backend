@@ -127,4 +127,24 @@ router.get("/audiobook/getone/:id", (req, res) => {
     });
 });
 
+// get book by author (recommedation book)
+router.get("/audiobook/getauthor/:author", (req, res) => {
+  AudioBook.find({
+    author: req.params.author,
+  })
+    .then((book) => {
+      if (book != null) {
+        res.status(200).json({
+          success: true,
+          data: book,
+        });
+      }
+    })
+    .catch((e) => {
+      res.status(400).json({
+        msg: e,
+      });
+    });
+});
+
 module.exports = router;
