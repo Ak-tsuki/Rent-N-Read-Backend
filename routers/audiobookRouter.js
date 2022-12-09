@@ -107,4 +107,24 @@ router.get("/audiobook/get", (req, res) => {
     });
 });
 
+// route to get one book by all user
+router.get("/audiobook/getone/:id", (req, res) => {
+  AudioBook.findOne({
+    _id: req.params.id,
+  })
+    .then((audiobook) => {
+      if (audiobook != null) {
+        res.status(200).json({
+          success: true,
+          data: audiobook,
+        });
+      }
+    })
+    .catch((e) => {
+      res.status(400).json({
+        msg: e,
+      });
+    });
+});
+
 module.exports = router;
