@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 const { default: isBoolean } = require("validator/lib/isboolean");
 
 //Buy eBook Model Collection Create
-const Buy = new mongoose.Schema(
+const BuyEbook = new mongoose.Schema(
   {
     ebookId: {
       type: mongoose.Schema.Types.ObjectId,
@@ -38,4 +38,4 @@ const Buy = new mongoose.Schema(
     timestamps: true,
   }
 );
-module.exports = mongoose.model("Buy", Buy);
+module.exports = mongoose.model("BuyEbook", BuyEbook);
