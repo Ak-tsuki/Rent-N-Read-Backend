@@ -89,4 +89,24 @@ router.get("/eBook/getbyadmin", auth.adminGuard, (req, res) => {
     });
 });
 
+// route to get audiobooks by all user
+router.get("/ebook/get", (req, res) => {
+  EBook.find({
+    status: "Approved",
+  })
+    .then((ebook) => {
+      if (ebook != null) {
+        res.status(201).json({
+          success: true,
+          data: ebook,
+        });
+      }
+    })
+    .catch((e) => {
+      res.status(400).json({
+        msg: e,
+      });
+    });
+});
+
 module.exports = router;
