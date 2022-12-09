@@ -21,7 +21,7 @@ router.post("/audiobook/buy", auth.userGuard, (req, res) => {
       });
     })
     .catch((e) => {
-      res.json({
+      res.status(400).json({
         msg: e,
       });
     });
