@@ -101,4 +101,24 @@ router.get("/user/getadmin", auth.adminGuard, (req, res) => {
   });
 });
 
+// get book owner details
+router.get("/bookowner/get/:id", (req, res) => {
+  User.findOne({
+    _id: req.params.id,
+  })
+    .then((data) => {
+      if (data != null) {
+        res.status(200).json({
+          success: true,
+          data: data,
+        });
+      }
+    })
+    .catch((e) => {
+      res.status(400).json({
+        msg: e,
+      });
+    });
+});
+
 module.exports = router;
