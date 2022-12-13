@@ -6,7 +6,10 @@ const auth = require("../middleware/auth");
 // new conversation
 router.post("/conversation/post", auth.userGuard, (req, res) => {
   Conversation.findOne({
-    members: [req.body.senderId, req.body.receiverId],
+    $or: [
+      { members: [req.body.senderId, req.body.receiverId] },
+      { members: [req.body.receiverId, req.body.senderId] },
+    ],
   })
     .then((conversation) => {
       if (conversation != null) {
