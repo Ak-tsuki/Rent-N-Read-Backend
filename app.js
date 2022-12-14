@@ -23,6 +23,7 @@ const exchangeRouter = require("./routers/exchangeRouter");
 const recommendationRouter = require("./routers/recommendationRouter");
 const buyaudiobookRouter = require("./routers/buyaudiobookRouter");
 const buyEbookRouter = require("./routers/buyEbookRouter");
+const rentEBookRouter = require("./routers/rentEbookRouter");
 
 // message
 const conversationRouter = require("./routers/conversationRouter");
@@ -38,6 +39,7 @@ app.use(exchangeRouter);
 app.use(recommendationRouter);
 app.use(buyaudiobookRouter);
 app.use(buyEbookRouter);
+app.use(rentEBookRouter);
 
 // message
 app.use(conversationRouter);

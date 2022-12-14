@@ -38,6 +38,7 @@ const RentEbook = new mongoose.Schema(
     },
     payment_method: {
       type: String,
+      default: "Khalti",
     },
     payment_status: {
       type: String,
@@ -53,4 +54,3 @@ const RentEbook = new mongoose.Schema(
 );
 
 module.exports = mongoose.model("RentEbook", RentEbook);
-e
