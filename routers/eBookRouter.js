@@ -3,6 +3,7 @@ const router = express.Router();
 
 //Model Imports
 const EBook = require("../models/e_bookModel");
+const BuyEbook = require("../models/buyEbookModel");
 
 const auth = require("../middleware/auth");
 const uploadFile = require("../file/uploadFile");
@@ -141,6 +142,27 @@ router.get("/ebook/getauthor/:author", (req, res) => {
           data: ebook,
         });
       }
+    })
+    .catch((e) => {
+      res.status(400).json({
+        msg: e,
+      });
+    });
+});
+
+//route to get bought ebooks by user
+router.get("/bought_ebooks/get", auth.userGuard, (req, res) => {
+  BuyEbook.find({ userId: req.userInfo._id })
+    .sort({
+      createdAt: "desc",
+    })
+    .populate("ebookId")
+    .populate("userId")
+    .then((buy) => {
+      res.status(200).json({
+        success: true,
+        data: buy,
+      });
     })
     .catch((e) => {
       res.status(400).json({
