@@ -34,7 +34,7 @@ const RentEbook = new mongoose.Schema(
     },
     rent_status: {
       type: String,
-      default: "Pending",
+      default: "Approved",
     },
     payment_method: {
       type: String,

@@ -31,54 +31,52 @@ router.post("/rentEbook/add", auth.userGuard, (req, res) => {
     });
 });
 
-// Router to approve Rent ebook
-router.put("/rentEbook/approve", auth.userGuard, (req, res) => {
-  RentEbook.updateOne(
-    {
-      _id: req.body.id,
-    },
-    {
-      rent_status: "Approved",
-    }
-  )
-    .then(() => {
-      res.status(201).json({
-        msg: "Rent EBook Approved Successfully",
-      });
-    })
-    .catch((e) => {
-      res.status(400).json({
-        msg: e,
-      });
-    });
-});
-// router to reject ebook
-router.put("/rentEbook/reject", auth.userGuard, (req, res) => {
-  RentEbook.updateOne(
-    {
-      _id: req.body.id,
-    },
-    {
-      rent_status: "Rejected",
-    }
-  )
-    .then(() => {
-      res.status(201).json({
-        msg: "Rent EBook Rejected Successfully",
-      });
-    })
-    .catch((e) => {
-      res.status(400).json({
-        msg: e,
-      });
-    });
-});
+// // Router to approve Rent ebook
+// router.put("/rentEbook/approve", auth.userGuard, (req, res) => {
+//   RentEbook.updateOne(
+//     {
+//       _id: req.body.id,
+//     },
+//     {
+//       rent_status: "Approved",
+//     }
+//   )
+//     .then(() => {
+//       res.status(201).json({
+//         msg: "Rent EBook Approved Successfully",
+//       });
+//     })
+//     .catch((e) => {
+//       res.status(400).json({
+//         msg: e,
+//       });
+//     });
+// });
+// // router to reject ebook
+// router.put("/rentEbook/reject", auth.userGuard, (req, res) => {
+//   RentEbook.updateOne(
+//     {
+//       _id: req.body.id,
+//     },
+//     {
+//       rent_status: "Rejected",
+//     }
+//   )
+//     .then(() => {
+//       res.status(201).json({
+//         msg: "Rent EBook Rejected Successfully",
+//       });
+//     })
+//     .catch((e) => {
+//       res.status(400).json({
+//         msg: e,
+//       });
+//     });
+// });
 
-//route to get pending rent request ebook by bookowner
-router.get("/rentEbook/get", auth.userGuard, (req, res) => {
-  RentEbook.find({
-    $and: [{ bookOwner: req.userInfo._id }, { rent_status: "Pending" }],
-  })
+//route to get pending rent request ebook by bookowner admin
+router.get("/rentEbook/get", auth.adminGuard, (req, res) => {
+  RentEbook.find({})
     .sort({
       createdAt: "desc",
     })
@@ -96,14 +94,10 @@ router.get("/rentEbook/get", auth.userGuard, (req, res) => {
       });
     });
 });
+
 //route to get all rent request ebook by bookowner
-router.get("/rentEbook/getHistory", auth.userGuard, (req, res) => {
-  RentEbook.find({
-    $and: [
-      { bookOwner: req.userInfo._id },
-      { $or: [{ rent_status: "Approved" }, { rent_status: "Rejected" }] },
-    ],
-  })
+router.get("/rentEbook/getHistory", auth.adminGuard, (req, res) => {
+  RentEbook.find({})
     .sort({
       createdAt: "desc",
     })
@@ -150,6 +144,7 @@ router.put("/rentEbook/paymentPaid", auth.userGuard, (req, res) => {
       _id: req.body.id,
     },
     {
+      rent_status: "Reading",
       payment_status: "Paid",
     }
   )
