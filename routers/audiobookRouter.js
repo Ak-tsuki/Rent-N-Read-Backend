@@ -3,7 +3,7 @@ const router = express.Router();
 
 //Model Imports
 const AudioBook = require("../models/audiobookModel");
-
+const BuyAudioBook = require("../models/buyaudiobookModel");
 const auth = require("../middleware/auth");
 const uploadFile = require("../file/uploadFile");
 
@@ -139,6 +139,27 @@ router.get("/audiobook/getauthor/:author", (req, res) => {
           data: book,
         });
       }
+    })
+    .catch((e) => {
+      res.status(400).json({
+        msg: e,
+      });
+    });
+});
+
+// get audio book by user(only the user buyed)
+router.get("/boughtaudiobook/get", auth.userGuard, (req, res) => {
+  BuyAudioBook.find({ userId: req.userInfo._id })
+    .sort({
+      createdAt: "desc",
+    })
+    .populate("audiobookId")
+    .populate("userId")
+    .then((rent) => {
+      res.status(200).json({
+        success: true,
+        data: rent,
+      });
     })
     .catch((e) => {
       res.status(400).json({
