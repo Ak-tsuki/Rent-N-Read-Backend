@@ -27,4 +27,40 @@ router.post("/audiobook/buy", auth.userGuard, (req, res) => {
     });
 });
 
+// get audio book by user(only the user buyed)
+router.get("/boughtaudiobook/get", auth.userGuard, (req, res) => {
+  BuyAudioBook.find({ userId: req.userInfo._id })
+    .sort({
+      createdAt: "desc",
+    })
+    .populate("audiobookId")
+    .populate("userId")
+    .then((buy) => {
+      res.status(200).json({
+        success: true,
+        data: buy,
+      });
+    })
+    .catch((e) => {
+      res.status(400).json({
+        msg: e,
+      });
+    });
+});
+
+
+//Router To Delete Audio Book
+router.delete("/boughtaudiobook/delete/:_id", auth.userGuard, (req, res) => {
+  console.log(req.params._id);
+  BuyAudioBook.deleteOne({ _id: req.params._id })
+    .then(() => {
+      res.status(201).json({ msg: "Audio Book Deleted Successfully", success: true });
+    })
+    .catch((e) => {
+      res
+        .status(400)
+        .json({ msg: "Something Went Wrong, Please Try Again!!!" });
+    });
+});
+
 module.exports = router;

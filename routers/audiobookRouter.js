@@ -147,25 +147,5 @@ router.get("/audiobook/getauthor/:author", (req, res) => {
     });
 });
 
-// get audio book by user(only the user buyed)
-router.get("/boughtaudiobook/get", auth.userGuard, (req, res) => {
-  BuyAudioBook.find({ userId: req.userInfo._id })
-    .sort({
-      createdAt: "desc",
-    })
-    .populate("audiobookId")
-    .populate("userId")
-    .then((rent) => {
-      res.status(200).json({
-        success: true,
-        data: rent,
-      });
-    })
-    .catch((e) => {
-      res.status(400).json({
-        msg: e,
-      });
-    });
-});
 
 module.exports = router;

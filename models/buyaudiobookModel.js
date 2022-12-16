@@ -23,7 +23,7 @@ const BuyAudioBook = new mongoose.Schema(
     },
     payment_method: {
       type: String,
-      default: "eSewa",
+      default: "Khalti",
     },
     payment_status: {
       type: String,
