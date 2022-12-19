@@ -24,6 +24,7 @@ const recommendationRouter = require("./routers/recommendationRouter");
 const buyaudiobookRouter = require("./routers/buyaudiobookRouter");
 const buyEbookRouter = require("./routers/buyEbookRouter");
 const rentEBookRouter = require("./routers/rentEbookRouter");
+const wishlistRouter = require("./routers/wishlistRouter");
 
 // message
 const conversationRouter = require("./routers/conversationRouter");
@@ -40,6 +41,7 @@ app.use(recommendationRouter);
 app.use(buyaudiobookRouter);
 app.use(buyEbookRouter);
 app.use(rentEBookRouter);
+app.use(wishlistRouter);
 
 // message
 app.use(conversationRouter);
