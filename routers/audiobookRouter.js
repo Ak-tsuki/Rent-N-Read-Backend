@@ -37,6 +37,7 @@ router.post(
     const audio_book = req.files.audio_book[0].filename;
     const name = req.body.name;
     const rich_desc = req.body.rich_desc;
+    const desc = req.body.desc;
     const author = req.body.author;
     const category = req.body.category.split(",");
     const price = req.body.price;
@@ -47,6 +48,7 @@ router.post(
       audio_book: audio_book,
       name: name,
       rich_desc: rich_desc,
+      desc: desc,
       author: author,
       category: category,
       price: price,
