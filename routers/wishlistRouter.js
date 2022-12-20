@@ -88,7 +88,7 @@ router.post("/wishlist/insert/", auth.userGuard, (req, res) => {
 // });
 
 //Wishlist Get
-router.get("/wishlist/getbook", auth.userGuard, (req, res) => {
+router.get("/wishlist/get", auth.userGuard, (req, res) => {
   Wishlist.find({ userId: req.userInfo._id })
     .populate("bookId")
     .then((wishlist) => {
