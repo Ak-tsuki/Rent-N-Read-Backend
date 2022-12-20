@@ -94,10 +94,44 @@ router.post("/wishlist/insert/", auth.userGuard, (req, res) => {
 });
 
 //Wishlist Get
-router.get("/wishlist/get", auth.userGuard, (req, res) => {
+router.get("/wishlist/getbook", auth.userGuard, (req, res) => {
   Wishlist.find({ userId: req.userInfo._id })
     .populate("bookId")
+    .then((wishlist) => {
+      if (wishlist != null) {
+        res.status(201).json({
+          success: true,
+          data: wishlist,
+        });
+      }
+    })
+    .catch((e) => {
+      res.status(400).json({
+        msg: e,
+      });
+    });
+});
+
+router.get("/wishlist/getebook", auth.userGuard, (req, res) => {
+  Wishlist.find({ userId: req.userInfo._id })
     .populate("ebookId")
+    .then((wishlist) => {
+      if (wishlist != null) {
+        res.status(201).json({
+          success: true,
+          data: wishlist,
+        });
+      }
+    })
+    .catch((e) => {
+      res.status(400).json({
+        msg: e,
+      });
+    });
+});
+
+router.get("/wishlist/getaudiobook", auth.userGuard, (req, res) => {
+  Wishlist.find({ userId: req.userInfo._id })
     .populate("audiobookId")
     .then((wishlist) => {
       if (wishlist != null) {
