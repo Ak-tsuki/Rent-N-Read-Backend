@@ -137,6 +137,26 @@ router.get("/rented_ebooks/get", auth.userGuard, (req, res) => {
     });
 });
 
+// route to get one rentedbook
+router.get("/rented_ebooks/getone/:id", auth.userGuard, (req, res) => {
+  RentEbook.findOne({
+    _id: req.params.id,
+  })
+    .then((rentEbook) => {
+      if (rentEbook != null) {
+        res.status(200).json({
+          success: true,
+          data: rentEbook,
+        });
+      }
+    })
+    .catch((e) => {
+      res.status(400).json({
+        msg: e,
+      });
+    });
+});
+
 // Router to make Payment status Paid
 router.put("/rentEbook/paymentPaid", auth.userGuard, (req, res) => {
   RentEbook.updateOne(
@@ -161,10 +181,10 @@ router.put("/rentEbook/paymentPaid", auth.userGuard, (req, res) => {
 });
 
 // Router to return rented book
-router.put("/rentEbook/returnBook", auth.userGuard, (req, res) => {
+router.put("/rentEbook/returnBook/:id", (req, res) => {
   RentEbook.updateOne(
     {
-      _id: req.body.id,
+      _id: req.params.id,
     },
     {
       rent_status: "Returned",
