@@ -6,85 +6,43 @@ const Wishlist = require("../Models/wishlistModel");
 const auth = require("../middleware/auth");
 
 //Route To Insert Guitar To Wishlist By Customer
-// router.post("/wishlist/insert/", auth.userGuard, (req, res) => {
-//   Wishlist.findOne({
-//     $and: [
-//       { userId: req.userInfo._id },
-//       {
-//         bookId: req.body.bookId,
-//       },
-//       // {
-//       //   ebookId: req.body.ebookId,
-//       // },
-//       // {
-//       //   audiobookId: req.body.audiobookId,
-//       // },
-//     ],
-//     // $or: [
-//     //   { bookId: req.body.bookId },
-//     //   { ebookId: req.body.ebookId },
-//     //   { audiobookId: req.body.audiobookId },
-//     // ],
-//   })
-//     .then((wishlist) => {
-//       console.log(wishlist);
-//       if (wishlist !== []) {
-//         res
-//           .status(201)
-//           .json({ msg: "Book Already Added To Wishlist", success: true });
-//       } else {
-//         const userId = req.userInfo._id;
-//         const bookId = req.body.bookId;
-//         const ebookId = req.body.ebookId;
-//         const audiobookId = req.body.audiobookId;
-
-//         const data = new Wishlist({
-//           userId: userId,
-//           bookId: bookId,
-//           ebookId: ebookId,
-//           audiobookId: audiobookId,
-//         });
-//         data
-//           .save()
-//           .then(() => {
-//             res.status(201).json({
-//               msg: "Book Added To Wishlist Successfully",
-//               success: true,
-//             });
-//           })
-//           .catch((e) => {
-//             res
-//               .status(400)
-//               .json({ msg: "Something Went Wrong, Please Try Again!!!" });
-//           });
-//       }
-//     })
-//     .catch((e) => {
-//       res
-//         .status(400)
-//         .json({ msg: "Something Went Wrong, Please Try Again!!!" });
-//     });
-// });
-
 router.post("/wishlist/insert/", auth.userGuard, (req, res) => {
-  const userId = req.userInfo._id;
-  const bookId = req.body.bookId;
-  const ebookId = req.body.ebookId;
-  const audiobookId = req.body.audiobookId;
+  Wishlist.findOne({
+    $and: [
+      { userId: req.userInfo._id },
+      {
+        bookId: req.body.bookId,
+      },
+    ],
+  })
+    .then((wishlist) => {
+      console.log(wishlist);
+      if (wishlist !== null) {
+        res
+          .status(201)
+          .json({ msg: "Book Already Added To Wishlist", success: true });
+      } else {
+        const userId = req.userInfo._id;
+        const bookId = req.body.bookId;
 
-  const data = new Wishlist({
-    userId: userId,
-    bookId: bookId,
-    ebookId: ebookId,
-    audiobookId: audiobookId,
-  });
-  data
-    .save()
-    .then(() => {
-      res.status(201).json({
-        msg: "Book Added To Wishlist Successfully",
-        success: true,
-      });
+        const data = new Wishlist({
+          userId: userId,
+          bookId: bookId,
+        });
+        data
+          .save()
+          .then(() => {
+            res.status(201).json({
+              msg: "Book Added To Wishlist Successfully",
+              success: true,
+            });
+          })
+          .catch((e) => {
+            res
+              .status(400)
+              .json({ msg: "Something Went Wrong, Please Try Again!!!" });
+          });
+      }
     })
     .catch((e) => {
       res
@@ -93,46 +51,32 @@ router.post("/wishlist/insert/", auth.userGuard, (req, res) => {
     });
 });
 
+// router.post("/wishlist/insert/", auth.userGuard, (req, res) => {
+//   const userId = req.userInfo._id;
+//   const bookId = req.body.bookId;
+
+//   const data = new Wishlist({
+//     userId: userId,
+//     bookId: bookId,
+//   });
+//   data
+//     .save()
+//     .then(() => {
+//       res.status(201).json({
+//         msg: "Book Added To Wishlist Successfully",
+//         success: true,
+//       });
+//     })
+//     .catch((e) => {
+//       res
+//         .status(400)
+//         .json({ msg: "Something Went Wrong, Please Try Again!!!" });
+//     });
+// });
+
 //Wishlist Get
-router.get("/wishlist/getbook", auth.userGuard, (req, res) => {
+router.get("/wishlist/get", auth.userGuard, (req, res) => {
   Wishlist.find({ userId: req.userInfo._id })
-    .populate("bookId")
-    .then((wishlist) => {
-      if (wishlist != null) {
-        res.status(201).json({
-          success: true,
-          data: wishlist,
-        });
-      }
-    })
-    .catch((e) => {
-      res.status(400).json({
-        msg: e,
-      });
-    });
-});
-
-router.get("/wishlist/getebook", auth.userGuard, (req, res) => {
-  Wishlist.find({ userId: req.userInfo._id })
-    .populate("ebookId")
-    .then((wishlist) => {
-      if (wishlist != null) {
-        res.status(201).json({
-          success: true,
-          data: wishlist,
-        });
-      }
-    })
-    .catch((e) => {
-      res.status(400).json({
-        msg: e,
-      });
-    });
-});
-
-router.get("/wishlist/getaudiobook", auth.userGuard, (req, res) => {
-  Wishlist.find({ userId: req.userInfo._id })
-    .populate("audiobookId")
     .then((wishlist) => {
       if (wishlist != null) {
         res.status(201).json({
