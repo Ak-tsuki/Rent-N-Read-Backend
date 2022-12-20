@@ -14,6 +14,11 @@ router.post("/wishlist/insert/", auth.userGuard, (req, res) => {
         bookId: req.body.bookId,
       },
     ],
+    // $or: [
+    //   { bookId: req.body.bookId },
+    //   { ebookId: req.body.ebookId },
+    //   { audiobookId: req.body.audiobookId },
+    // ],
   })
     .then((wishlist) => {
       console.log(wishlist);
@@ -24,10 +29,14 @@ router.post("/wishlist/insert/", auth.userGuard, (req, res) => {
       } else {
         const userId = req.userInfo._id;
         const bookId = req.body.bookId;
+        // const ebookId = req.body.ebookId;
+        // const audiobookId = req.body.audiobookId;
 
         const data = new Wishlist({
           userId: userId,
           bookId: bookId,
+          // ebookId: ebookId,
+          // audiobookId: audiobookId,
         });
         data
           .save()
@@ -54,10 +63,14 @@ router.post("/wishlist/insert/", auth.userGuard, (req, res) => {
 // router.post("/wishlist/insert/", auth.userGuard, (req, res) => {
 //   const userId = req.userInfo._id;
 //   const bookId = req.body.bookId;
+//   const ebookId = req.body.ebookId;
+//   const audiobookId = req.body.audiobookId;
 
 //   const data = new Wishlist({
 //     userId: userId,
 //     bookId: bookId,
+//     ebookId: ebookId,
+//     audiobookId: audiobookId,
 //   });
 //   data
 //     .save()
@@ -75,8 +88,9 @@ router.post("/wishlist/insert/", auth.userGuard, (req, res) => {
 // });
 
 //Wishlist Get
-router.get("/wishlist/get", auth.userGuard, (req, res) => {
+router.get("/wishlist/getbook", auth.userGuard, (req, res) => {
   Wishlist.find({ userId: req.userInfo._id })
+    .populate("bookId")
     .then((wishlist) => {
       if (wishlist != null) {
         res.status(201).json({

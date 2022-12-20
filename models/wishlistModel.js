@@ -7,8 +7,16 @@ const Wishlist = new mongoose.Schema({
     required: true,
   },
   bookId: {
-    type: String,
-    required: true,
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Book",
+  },
+  ebookId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "EBook",
+  },
+  audiobookId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "AudioBook",
   },
 });
 
