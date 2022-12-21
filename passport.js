@@ -6,15 +6,24 @@ passport.use(
     {
       clientID: process.env.CLIENT_ID,
       clientSecret: process.env.CLIENT_SECRET,
-      callbackURL: "/auth/google/callback",
+      callbackURL: "/thirdpartyRouter/google/callback",
       scope: ["profile", "email"],
     },
-    function (accessToken, refreshToken, profile, callback) {
-      callback(null, profile);
+    function (accessToken, refreshToken, profile, done) {
+      done(null, profile);
+      //   const user = {
+      //     username: profile.displayName,
+      //     avatar: profile.photos[0],
+      //   };
+      //   user.save;
     }
   )
 );
 
 passport.serializeUser((user, done) => {
+  done(null, user);
+});
+
+passport.deserializeUser((user, done) => {
   done(null, user);
 });

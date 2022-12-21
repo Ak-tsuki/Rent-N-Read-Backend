@@ -69,7 +69,7 @@ app.use(buyEbookRouter);
 app.use(rentEBookRouter);
 app.use(wishlistRouter);
 
-app.use(thirdpartyRouter);
+app.use("/thirdpartyRouter", thirdpartyRouter);
 
 // message
 app.use(conversationRouter);
