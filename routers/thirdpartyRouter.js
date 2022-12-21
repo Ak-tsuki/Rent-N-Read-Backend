@@ -16,4 +16,19 @@ router.get("/login/sucess", (res, req) => {
   }
 });
 
+router.get("/login/failed", (req, res) => {
+  res.status(401).json({
+    error: true,
+    message: "Log in Faliure",
+  });
+});
+
+router.get(
+  "/google/callback",
+  passport.authenticate("google", {
+    successRedirect: process.env.CLIENT_URL,
+    faliureRedirect: "/login/failed",
+  })
+);
+
 module.exports = router;
