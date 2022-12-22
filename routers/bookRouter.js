@@ -75,9 +75,7 @@ router.get("/book/getbyOwner", auth.userGuard, (req, res) => {
 
 // route to get books by all user
 router.get("/book/get", (req, res) => {
-  Book.find({
-    status: "Approved",
-  })
+  Book.find({ $and: [{ status: "Approved" }, { is_available: true }] })
     .then((book) => {
       if (book != null) {
         res.status(200).json({
