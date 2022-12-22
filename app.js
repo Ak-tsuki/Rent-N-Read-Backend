@@ -1,9 +1,12 @@
+require("dotenv").config();
 const express = require("express");
-const app = express();
 const cors = require("cors");
+const passport = require("passport");
+const cookieSession = require("cookie-session");
+const app = express();
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-app.use(cors());
 
 app.use(express.static(__dirname + "/bookImgs"));
 app.use(express.static(__dirname + "/audiobooks"));
@@ -11,6 +14,25 @@ app.use(express.static(__dirname + "/ebooks"));
 // Importing Database Connection
 const connectDB = require("./config/dbconnection");
 connectDB();
+
+app.use(
+  cookieSession({
+    name: "session",
+    keys: ["akatsuki"],
+    maxAge: 24 * 60 * 60 * 100,
+  })
+);
+
+app.use(passport.initialize());
+app.use(passport.session());
+
+app.use(
+  cors({
+    origin: "http://localhost:3000",
+    methods: "GET,POST,PUT,DELETE",
+    credentials: true,
+  })
+);
 
 // Importing Routers // Models are imported in routers
 const userRouter = require("./routers/userRouter");
@@ -24,6 +46,10 @@ const recommendationRouter = require("./routers/recommendationRouter");
 const buyaudiobookRouter = require("./routers/buyaudiobookRouter");
 const buyEbookRouter = require("./routers/buyEbookRouter");
 const rentEBookRouter = require("./routers/rentEbookRouter");
+const wishlistRouter = require("./routers/wishlistRouter");
+
+const passportSetup = require("./passport");
+const thirdpartyRouter = require("./routers/thirdpartyRouter");
 
 // message
 const conversationRouter = require("./routers/conversationRouter");
@@ -40,6 +66,9 @@ app.use(recommendationRouter);
 app.use(buyaudiobookRouter);
 app.use(buyEbookRouter);
 app.use(rentEBookRouter);
+app.use(wishlistRouter);
+
+app.use("/thirdpartyRouter", thirdpartyRouter);
 
 // message
 app.use(conversationRouter);
