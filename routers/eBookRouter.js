@@ -38,6 +38,7 @@ router.post(
     const e_book = req.files.e_book[0].filename;
     const name = req.body.name;
     const rich_desc = req.body.rich_desc;
+    const desc = req.body.desc;
     const author = req.body.author;
     const rent_cost_perday = req.body.rent_cost_perday;
     const category = req.body.category.split(",");
@@ -49,6 +50,7 @@ router.post(
       e_book: e_book,
       name: name,
       rich_desc: rich_desc,
+      desc: desc,
       author: author,
       rent_cost_perday: rent_cost_perday,
       category: category,
