@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const passport = require("passport");
 
-router.get("/login/sucess", (res, req) => {
+router.get("/login/sucess", (req, res) => {
   if (req.user) {
     res.status(200).json({
       error: false,
