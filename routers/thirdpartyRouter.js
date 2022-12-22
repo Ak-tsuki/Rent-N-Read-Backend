@@ -13,7 +13,11 @@ router.get("/login/sucess", (req, res) => {
         console.log("user is: ", currentUser);
         const token = jwt.sign({ userId: currentUser._id }, "rentnreaduser");
         console.log(token);
-        res.status(201).json({ token: token, userType: currentUser.userType });
+        res.status(200).json({
+          token: token,
+          userType: currentUser.userType,
+          username: currentUser.username,
+        });
       } else {
         //if not create user in our database
         new User({
@@ -21,6 +25,7 @@ router.get("/login/sucess", (req, res) => {
           username: req.user._json.given_name,
           name: req.user._json.name,
           email: req.user._json.email,
+          userType: "user",
           // profile_pic: profile._json.img.url,
         })
           .save()
@@ -28,7 +33,11 @@ router.get("/login/sucess", (req, res) => {
             console.log("Created new User : ", newUser);
             const token = jwt.sign({ userId: newUser._id }, "rentnreaduser");
             console.log(token);
-            res.status(201).json({ token: token, userType: newUser.userType });
+            res.status(200).json({
+              token: token,
+              userType: newUser.userType,
+              username: newUser.username,
+            });
           });
       }
     });
