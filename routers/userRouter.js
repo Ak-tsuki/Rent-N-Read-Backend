@@ -203,7 +203,7 @@ router.put("/password/update", auth.userGuard, (req, res) => {
             }
           )
             .then(
-              res.status(201).json({
+              res.status(200).json({
                 msg: "Password changed",
                 success: true,
               })
