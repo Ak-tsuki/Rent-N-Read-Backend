@@ -95,8 +95,14 @@ router.get("/user/getadmin", auth.adminGuard, (req, res) => {
   res.status(201).json({
     success: true,
     data: {
+      first_name: req.adminInfo.first_name,
+      last_name: req.adminInfo.last_name,
+      address: req.adminInfo.address,
+      contact_no: req.adminInfo.contact_no,
+      gender: req.adminInfo.gender,
       username: req.adminInfo.username,
       email: req.adminInfo.email,
+      profile_pic: req.adminInfo.profile_pic,
       userType: req.adminInfo.userType,
     },
   });
@@ -199,6 +205,107 @@ router.put("/password/update", auth.userGuard, (req, res) => {
         bcryptjs.hash(new_password, 10, (e, hashed_pw) => {
           User.updateOne(
             { _id: req.userInfo._id },
+            {
+              password: hashed_pw,
+            }
+          )
+            .then(
+              res.status(200).json({
+                msg: "Password changed",
+                success: true,
+              })
+            )
+            .catch((e) => {
+              res.json({
+                msg: e,
+              });
+            });
+        });
+      });
+    })
+    .catch((e) => {
+      res.json({
+        success: false,
+        msg: e,
+      });
+    });
+});
+
+// admin update profile
+router.put(
+  "/profile/updateadmin",
+  auth.adminGuard,
+  uploadFile.single("user_img"),
+  (req, res) => {
+    if (req.file == undefined) {
+      User.updateOne(
+        { _id: req.adminInfo._id },
+        {
+          first_name: req.body.first_name,
+          last_name: req.body.last_name,
+          address: req.body.address,
+          contact_no: req.body.contact_no,
+          gender: req.body.gender,
+        }
+      )
+        .then(() => {
+          res
+            .status(201)
+            .json({ msg: "Admin Profile Updated Successfully", success: true });
+        })
+        .catch((e) => {
+          res.status(400).json({ msg: e });
+        });
+    } else {
+      User.updateOne(
+        { _id: req.adminInfo._id },
+        {
+          first_name: req.body.first_name,
+          last_name: req.body.last_name,
+          address: req.body.address,
+          contact_no: req.body.contact_no,
+          gender: req.body.gender,
+          profile_pic: req.file.filename,
+        }
+      )
+        .then(() => {
+          res
+            .status(201)
+            .json({ msg: "Admin Profile Updated Successfully", success: true });
+        })
+        .catch((e) => {
+          res
+            .status(400)
+            .json({ msg: "Something Went Wrong, Please Try Again!!!" });
+        });
+    }
+  }
+);
+
+// admin password change
+router.put("/password/updateadmin", auth.adminGuard, (req, res) => {
+  const old_password = req.body.old_password;
+  const new_password = req.body.new_password;
+  User.findOne({
+    _id: req.adminInfo._id,
+  })
+    .then((user_data) => {
+      if (user_data == null) {
+        res.json({
+          msg: "Invalid Credentials",
+        });
+        return;
+      }
+      bcryptjs.compare(old_password, user_data.password, (e, result) => {
+        if (result == false) {
+          res.json({
+            msg: "Incorrect password",
+          });
+          return;
+        }
+        bcryptjs.hash(new_password, 10, (e, hashed_pw) => {
+          User.updateOne(
+            { _id: req.adminInfo._id },
             {
               password: hashed_pw,
             }
