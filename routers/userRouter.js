@@ -3,7 +3,7 @@ const express = require("express");
 const app = express();
 const router = new express.Router();
 const jwt = require("jsonwebtoken");
-
+const uploadFile = require("../file/uploadFile");
 //Model Imports
 const User = require("../models/userModel");
 const auth = require("../middleware/auth");
@@ -120,5 +120,59 @@ router.get("/bookowner/get/:id", (req, res) => {
       });
     });
 });
+
+router.put(
+  "/profile/update",
+  auth.userGuard,
+  uploadFile.single("user_img"),
+  (req, res) => {
+    if (req.file == undefined) {
+      User.updateOne(
+        { _id: req.userInfo._id },
+        {
+          username: req.body.username,
+          first_name: req.body.first_name,
+          last_name: req.body.last_name,
+          address: req.body.address,
+          contact_no: req.body.contact_no,
+          gender: req.body.gender,
+          email: req.body.email,
+        }
+      )
+        .then(() => {
+          res
+            .status(201)
+            .json({ msg: "User Profile Updated Successfully", success: true });
+        })
+        .catch((e) => {
+          res.status(400).json({ msg: e });
+        });
+    } else {
+      User.updateOne(
+        { _id: req.userInfo._id },
+        {
+          username: req.body.username,
+          first_name: req.body.first_name,
+          last_name: req.body.last_name,
+          address: req.body.address,
+          contact_no: req.body.contact_no,
+          gender: req.body.gender,
+          email: req.body.email,
+          profile_pic: req.file.filename,
+        }
+      )
+        .then(() => {
+          res
+            .status(201)
+            .json({ msg: "User Profile Updated Successfully", success: true });
+        })
+        .catch((e) => {
+          res
+            .status(400)
+            .json({ msg: "Something Went Wrong, Please Try Again!!!" });
+        });
+    }
+  }
+);
 
 module.exports = router;

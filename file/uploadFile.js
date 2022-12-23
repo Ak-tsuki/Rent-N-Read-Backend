@@ -9,6 +9,8 @@ const storage = multer.diskStorage({
       cb(null, "./bookImgs");
     } else if (file.fieldname === "e_book") {
       cb(null, "./ebooks");
+    } else if (file.fieldname === "user_img") {
+      cb(null, "./userImages");
     }
   },
   filename: (req, file, cb) => {
@@ -30,6 +32,12 @@ const filter = (req, file, cb) => {
       cb(null, false);
     }
   } else if (file.fieldname === "book_img") {
+    if (file.mimetype == "image/png" || file.mimetype == "image/jpeg") {
+      cb(null, true);
+    } else {
+      cb(null, false);
+    }
+  } else if (file.fieldname === "user_img") {
     if (file.mimetype == "image/png" || file.mimetype == "image/jpeg") {
       cb(null, true);
     } else {

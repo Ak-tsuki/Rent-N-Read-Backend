@@ -6,6 +6,9 @@ const User = new mongoose.Schema({
   first_name: {
     type: String,
   },
+  last_name: {
+    type: String,
+  },
   address: {
     type: String,
   },
@@ -34,7 +37,6 @@ const User = new mongoose.Schema({
   userType: {
     type: String,
   },
-
   googleId: {
     type: String,
   },
