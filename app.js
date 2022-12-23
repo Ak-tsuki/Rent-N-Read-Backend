@@ -11,6 +11,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(express.static(__dirname + "/bookImgs"));
 app.use(express.static(__dirname + "/audiobooks"));
 app.use(express.static(__dirname + "/ebooks"));
+app.use(express.static(__dirname + "/userImages"));
 // Importing Database Connection
 const connectDB = require("./config/dbconnection");
 connectDB();

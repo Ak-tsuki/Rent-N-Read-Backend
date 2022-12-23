@@ -78,13 +78,14 @@ router.get("/user/get", auth.userGuard, (req, res) => {
   res.status(201).json({
     success: true,
     data: {
-      first_name: req.userInfo.firstname,
+      first_name: req.userInfo.first_name,
+      last_name: req.userInfo.last_name,
       address: req.userInfo.address,
-      contact_no: req.userInfo.phone,
+      contact_no: req.userInfo.contact_no,
       gender: req.userInfo.gender,
       username: req.userInfo.username,
       email: req.userInfo.email,
-      profile_pic: req.userInfo.profile_img,
+      profile_pic: req.userInfo.profile_pic,
       userType: req.userInfo.userType,
     },
   });
