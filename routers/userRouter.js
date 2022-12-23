@@ -175,4 +175,53 @@ router.put(
   }
 );
 
+router.put("/password/update", auth.userGuard, (req, res) => {
+  const old_password = req.body.old_password;
+  const new_password = req.body.new_password;
+  User.findOne({
+    _id: req.userInfo._id,
+  })
+    .then((user_data) => {
+      if (user_data == null) {
+        res.json({
+          msg: "Invalid Credentials",
+        });
+        return;
+      }
+      bcryptjs.compare(old_password, user_data.password, (e, result) => {
+        if (result == false) {
+          res.json({
+            msg: "Incorrect password",
+          });
+          return;
+        }
+        bcryptjs.hash(new_password, 10, (e, hashed_pw) => {
+          User.updateOne(
+            { _id: req.userInfo._id },
+            {
+              password: hashed_pw,
+            }
+          )
+            .then(
+              res.status(201).json({
+                msg: "Password changed",
+                success: true,
+              })
+            )
+            .catch((e) => {
+              res.json({
+                msg: e,
+              });
+            });
+        });
+      });
+    })
+    .catch((e) => {
+      res.json({
+        success: false,
+        msg: e,
+      });
+    });
+});
+
 module.exports = router;
