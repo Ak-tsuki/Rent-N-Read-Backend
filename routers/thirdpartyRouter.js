@@ -73,7 +73,7 @@ router.get("/google", passport.authenticate("google", ["profile", "email"]));
 
 router.get("/logout", (req, res) => {
   req.logout();
-  res.redirect(process.env.CLIENT_URL);
+  res.redirect("http://localhost:3000");
 });
 
 const authCheck = (req, res, next) => {
