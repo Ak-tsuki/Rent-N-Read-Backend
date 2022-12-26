@@ -2,7 +2,7 @@ const request = require("supertest");
 const app = require("../app");
 
 const token =
-  "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2Mzc1ZTI0YzE2N2RiNTY1MzA4MDU0YmUiLCJpYXQiOjE2NjkwOTg5MzF9.Eosh0eVPCCRUaiI0B4I13huQjrFDZSlAZE8uC1mMjoM";
+  "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MzcyNDdlMmRiNTM4ZDhkYTdmZWFhM2IiLCJpYXQiOjE2NzIwNjgzMjR9.Bhq7G2ozy9OO9OmxMAVEmONIhPQ6c0hgTLx_uvhFelM";
 
 test("Send book rent request to book owner", async () => {
   await request(app)
@@ -52,4 +52,20 @@ test("Update payment status after payment process", async () => {
     .set("Authorization", token)
     .expect("Content-Type", /json/)
     .expect(201);
+});
+
+test("get book according to rentstatus aaproved", async () => {
+  await request(app)
+    .get("/rented_books/getApproved")
+    .set("Authorization", token)
+    .expect("Content-Type", /json/)
+    .expect(200);
+});
+
+test("get ebook according to rentstatus aaproved", async () => {
+  await request(app)
+    .get("/rented_ebooks/getApproved")
+    .set("Authorization", token)
+    .expect("Content-Type", /json/)
+    .expect(200);
 });

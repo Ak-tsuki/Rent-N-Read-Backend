@@ -202,4 +202,97 @@ router.put("/rentEbook/returnBook/:id", (req, res) => {
     });
 });
 
+//.................................for dropdown.......................
+//route to get rented ebooks by user
+router.get("/rented_ebooks/getApproved", auth.userGuard, (req, res) => {
+  RentEbook.find({
+    $and: [{ userId: req.userInfo._id }, { rent_status: "Approved" }],
+  })
+    .sort({
+      createdAt: "desc",
+    })
+    .populate("ebookId")
+    .populate("userId")
+    .then((rentEbook) => {
+      res.status(200).json({
+        success: true,
+        data: rentEbook,
+      });
+    })
+    .catch((e) => {
+      res.status(400).json({
+        msg: e,
+      });
+    });
+});
+
+//route to get rented ebooks by user
+router.get("/rented_ebooks/getPending", auth.userGuard, (req, res) => {
+  RentEbook.find({
+    $and: [{ userId: req.userInfo._id }, { payment_status: "Pending" }],
+  })
+    .sort({
+      createdAt: "desc",
+    })
+    .populate("ebookId")
+    .populate("userId")
+    .then((rentEbook) => {
+      res.status(200).json({
+        success: true,
+        data: rentEbook,
+      });
+    })
+    .catch((e) => {
+      res.status(400).json({
+        msg: e,
+      });
+    });
+});
+
+//route to get rented ebooks by user
+router.get("/rented_ebooks/getReading", auth.userGuard, (req, res) => {
+  RentEbook.find({
+    $and: [{ userId: req.userInfo._id }, { rent_status: "Reading" }],
+  })
+    .sort({
+      createdAt: "desc",
+    })
+    .populate("ebookId")
+    .populate("userId")
+    .then((rentEbook) => {
+      res.status(200).json({
+        success: true,
+        data: rentEbook,
+      });
+    })
+    .catch((e) => {
+      res.status(400).json({
+        msg: e,
+      });
+    });
+});
+
+//route to get rented ebooks by user
+router.get("/rented_ebooks/getReturned", auth.userGuard, (req, res) => {
+  RentEbook.find({
+    $and: [{ userId: req.userInfo._id }, { rent_status: "Returned" }],
+  })
+    .sort({
+      createdAt: "desc",
+    })
+    .populate("ebookId")
+    .populate("userId")
+    .then((rentEbook) => {
+      res.status(200).json({
+        success: true,
+        data: rentEbook,
+      });
+    })
+    .catch((e) => {
+      res.status(400).json({
+        msg: e,
+      });
+    });
+});
+//....................................................................
 module.exports = router;

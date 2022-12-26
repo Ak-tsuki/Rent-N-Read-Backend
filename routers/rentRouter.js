@@ -187,4 +187,101 @@ router.put("/rent/returnBook", auth.userGuard, (req, res) => {
     });
 });
 
+
+/////////////////////////////////dropdown/////////////////////////////////////////
+
+//route to get rented books by user
+router.get("/rented_books/getpending", auth.userGuard, (req, res) => {
+  Rent.find({ 
+    $and: [{userId: req.userInfo._id }, { rent_status: "Pending" }],
+})
+    .sort({
+      createdAt: "desc",
+    })
+    .populate("bookId")
+    .populate("userId")
+    .then((rent) => {
+      res.status(200).json({
+        success: true,
+        data: rent,
+      });
+    })
+    .catch((e) => {
+      res.status(400).json({
+        msg: e,
+      });
+    });
+});
+
+
+
+//route to get rented books by user
+router.get("/rented_books/getApproved", auth.userGuard, (req, res) => {
+  Rent.find({ 
+    $and: [{userId: req.userInfo._id }, { rent_status: "Approved" }],
+})
+    .sort({
+      createdAt: "desc",
+    })
+    .populate("bookId")
+    .populate("userId")
+    .then((rent) => {
+      res.status(200).json({
+        success: true,
+        data: rent,
+      });
+    })
+    .catch((e) => {
+      res.status(400).json({
+        msg: e,
+      });
+    });
+});
+//route to get rented books by user
+router.get("/rented_books/getRejected", auth.userGuard, (req, res) => {
+  Rent.find({ 
+    $and: [{userId: req.userInfo._id }, { rent_status: "Rejected" }],
+})
+    .sort({
+      createdAt: "desc",
+    })
+    .populate("bookId")
+    .populate("userId")
+    .then((rent) => {
+      res.status(200).json({
+        success: true,
+        data: rent,
+      });
+    })
+    .catch((e) => {
+      res.status(400).json({
+        msg: e,
+      });
+    });
+});
+//route to get rented books by user
+router.get("/rented_books/getReturned", auth.userGuard, (req, res) => {
+  Rent.find({ 
+    $and: [{userId: req.userInfo._id }, { rent_status: "Returned" }],
+})
+    .sort({
+      createdAt: "desc",
+    })
+    .populate("bookId")
+    .populate("userId")
+    .then((rent) => {
+      res.status(200).json({
+        success: true,
+        data: rent,
+      });
+    })
+    .catch((e) => {
+      res.status(400).json({
+        msg: e,
+      });
+    });
+});
+
+
+/////////////////////////////////dropdown/////////////////////////////////////////
 module.exports = router;
