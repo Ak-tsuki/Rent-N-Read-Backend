@@ -96,6 +96,7 @@ router.get("/book/getone/:id", (req, res) => {
   Book.findOne({
     _id: req.params.id,
   })
+  .populate("bookOwner")
     .then((book) => {
       if (book != null) {
         res.status(200).json({
