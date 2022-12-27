@@ -149,7 +149,7 @@ router.get("/audiobook/getauthor/:author", (req, res) => {
     });
 });
 
-// route to get books by all user
+// route to get audiobooks filtered through category by all user
 router.get("/audiobook/filter/:category", (req, res) => {
   AudioBook.find({
     $and: [
@@ -181,7 +181,7 @@ router.get("/audiobook/filter/:category", (req, res) => {
     });
 });
 
-// route to get books by all user
+// route to get audiobooks filtered through category by all user main
 router.get("/audiobook/filter", (req, res) => {
   AudioBook.find({
     $and: [
@@ -197,6 +197,32 @@ router.get("/audiobook/filter", (req, res) => {
         res.status(200).json({
           success: true,
           data: audiobook,
+        });
+      }
+    })
+    .catch((e) => {
+      res.status(400).json({
+        msg: e,
+      });
+    });
+});
+
+// route to get audiobooks filtered through price by all user
+router.get("/audiobook/pricefilter", (req, res) => {
+  AudioBook.find({
+    $and: [
+      { status: "Approved" },
+      { is_available: true },
+      { price: {"$gte": req.body.priceone} },
+      { price: {"$lte": req.body.pricetwo} }
+    ],
+  })
+    .then((book) => {
+      if (book != null) {
+        console.log(book);
+        res.status(200).json({
+          success: true,
+          data: book,
         });
       }
     })

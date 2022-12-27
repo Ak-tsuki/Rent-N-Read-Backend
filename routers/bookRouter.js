@@ -314,7 +314,7 @@ router.get("/book/getauthor/:author", (req, res) => {
     });
 });
 
-// route to get books by all user
+// route to get books filtered through category by all user
 router.get("/book/filter/:category", (req, res) => {
   Book.find({
     $and: [
@@ -327,12 +327,6 @@ router.get("/book/filter/:category", (req, res) => {
       console.log("hgghg");
       if (book != null) {
         console.log(book);
-        // Book.find({ category: { $in: book.category } }).then((book) => {
-        //   res.status(200).json({
-        //     success: true,
-        //     data: book,
-        //   });
-        // });
         res.status(200).json({
           success: true,
           data: book,
@@ -346,7 +340,7 @@ router.get("/book/filter/:category", (req, res) => {
     });
 });
 
-// route to get books by all user
+// route to get books filtered through category by all user main
 router.get("/book/filter", (req, res) => {
   Book.find({
     $and: [
@@ -372,27 +366,31 @@ router.get("/book/filter", (req, res) => {
     });
 });
 
-// //book filter by category
-// router.get("/book/filter", auth.userGuard, (req, res) => {
-//   Book.find()
-//     .then((book) => {
-//       if (book != null) {
-//         Book.findOne({ _id: rent.bookId }).then((mainbook) => {
-//           console.log(mainbook.category);
-//           Book.find({ category: { $in: mainbook.category } }).then((book) => {
-//             res.status(200).json({
-//               success: true,
-//               data: book,
-//             });
-//           });
-//         });
-//       }
-//     })
-//     .catch((e) => {
-//       res.status(400).json({
-//         msg: e,
-//       });
-//     });
-// });
+// route to get books filtered through price by all user
+router.get("/book/pricefilter", (req, res) => {
+  Book.find({
+    $and: [
+      { status: "Approved" },
+      { is_available: true },
+      { rent_cost_perday: {"$gte": req.body.priceone} },
+      { rent_cost_perday: {"$lte": req.body.pricetwo} }
+    ],
+  })
+    .then((book) => {
+      if (book != null) {
+        console.log(book);
+        res.status(200).json({
+          success: true,
+          data: book,
+        });
+      }
+    })
+    .catch((e) => {
+      res.status(400).json({
+        msg: e,
+      });
+    });
+});
+
 
 module.exports = router;

@@ -173,7 +173,7 @@ router.get("/bought_ebooks/get", auth.userGuard, (req, res) => {
     });
 });
 
-// route to get books by all user
+// route to get ebooks filtered through category by all user
 router.get("/ebook/filter/:category", (req, res) => {
   EBook.find({
     $and: [
@@ -186,12 +186,6 @@ router.get("/ebook/filter/:category", (req, res) => {
       console.log("hgghg");
       if (ebook != null) {
         console.log(ebook);
-        // Book.find({ category: { $in: book.category } }).then((book) => {
-        //   res.status(200).json({
-        //     success: true,
-        //     data: book,
-        //   });
-        // });
         res.status(200).json({
           success: true,
           data: ebook,
@@ -205,7 +199,7 @@ router.get("/ebook/filter/:category", (req, res) => {
     });
 });
 
-// route to get books by all user
+// route to get ebooks filtered through category by all user main
 router.get("/ebook/filter", (req, res) => {
   EBook.find({
     $and: [
@@ -221,6 +215,32 @@ router.get("/ebook/filter", (req, res) => {
         res.status(200).json({
           success: true,
           data: ebook,
+        });
+      }
+    })
+    .catch((e) => {
+      res.status(400).json({
+        msg: e,
+      });
+    });
+});
+
+// route to get ebooks filtered through price by all user
+router.get("/ebook/pricefilter", (req, res) => {
+  EBook.find({
+    $and: [
+      { status: "Approved" },
+      { is_available: true },
+      { price: {"$gte": req.body.priceone} },
+      { price: {"$lte": req.body.pricetwo} }
+    ],
+  })
+    .then((book) => {
+      if (book != null) {
+        console.log(book);
+        res.status(200).json({
+          success: true,
+          data: book,
         });
       }
     })
