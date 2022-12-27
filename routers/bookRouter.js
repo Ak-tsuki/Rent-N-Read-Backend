@@ -315,38 +315,39 @@ router.get("/book/getauthor/:author", (req, res) => {
 });
 
 // route to get books filtered through category by all user
-router.get("/book/filter/:category", (req, res) => {
-  Book.find({
-    $and: [
-      { status: "Approved" },
-      { is_available: true },
-      { category: req.params.category },
-    ],
-  })
-    .then((book) => {
-      console.log("hgghg");
-      if (book != null) {
-        console.log(book);
-        res.status(200).json({
-          success: true,
-          data: book,
-        });
-      }
-    })
-    .catch((e) => {
-      res.status(400).json({
-        msg: e,
-      });
-    });
-});
+// router.get("/book/filter/:category", (req, res) => {
+//   Book.find({
+//     $and: [
+//       { status: "Approved" },
+//       { is_available: true },
+//       { category: req.params.category },
+//     ],
+//   })
+//     .then((book) => {
+//       console.log("hgghg");
+//       if (book != null) {
+//         console.log(book);
+//         res.status(200).json({
+//           success: true,
+//           data: book,
+//         });
+//       }
+//     })
+//     .catch((e) => {
+//       res.status(400).json({
+//         msg: e,
+//       });
+//     });
+// });
 
 // route to get books filtered through category by all user main
-router.get("/book/filter", (req, res) => {
+router.get("/book/filter/:category", (req, res) => {
+  const category = req.params.category.split(",");
   Book.find({
     $and: [
       { status: "Approved" },
       { is_available: true },
-      { category: { $in: req.body.category } },
+      { category: { $in: category } },
     ],
   })
     .then((book) => {
@@ -372,13 +373,12 @@ router.get("/book/pricefilter", (req, res) => {
     $and: [
       { status: "Approved" },
       { is_available: true },
-      { rent_cost_perday: {"$gte": req.body.priceone} },
-      { rent_cost_perday: {"$lte": req.body.pricetwo} }
+      { rent_cost_perday: { $gte: req.body.priceone } },
+      { rent_cost_perday: { $lte: req.body.pricetwo } },
     ],
   })
     .then((book) => {
       if (book != null) {
-        console.log(book);
         res.status(200).json({
           success: true,
           data: book,
@@ -391,6 +391,5 @@ router.get("/book/pricefilter", (req, res) => {
       });
     });
 });
-
 
 module.exports = router;

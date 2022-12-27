@@ -182,12 +182,13 @@ router.get("/audiobook/filter/:category", (req, res) => {
 });
 
 // route to get audiobooks filtered through category by all user main
-router.get("/audiobook/filter", (req, res) => {
+router.get("/audiobook/filter/:category", (req, res) => {
+  const category = req.params.category.split(",");
   AudioBook.find({
     $and: [
       { status: "Approved" },
       { is_available: true },
-      { category: { $in: req.body.category } },
+      { category: { $in: category } },
     ],
   })
     .then((audiobook) => {
@@ -213,8 +214,8 @@ router.get("/audiobook/pricefilter", (req, res) => {
     $and: [
       { status: "Approved" },
       { is_available: true },
-      { price: {"$gte": req.body.priceone} },
-      { price: {"$lte": req.body.pricetwo} }
+      { price: { $gte: req.body.priceone } },
+      { price: { $lte: req.body.pricetwo } },
     ],
   })
     .then((book) => {
