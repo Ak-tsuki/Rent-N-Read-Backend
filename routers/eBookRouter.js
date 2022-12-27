@@ -227,13 +227,13 @@ router.get("/ebook/filter/:category", (req, res) => {
 });
 
 // route to get ebooks filtered through price by all user
-router.get("/ebook/pricefilter", (req, res) => {
+router.get("/ebook/pricefilter/:priceone/:pricetwo", (req, res) => {
   EBook.find({
     $and: [
       { status: "Approved" },
       { is_available: true },
-      { price: { $gte: req.body.priceone } },
-      { price: { $lte: req.body.pricetwo } },
+      { price: { $gte: req.params.priceone } },
+      { price: { $lte: req.params.pricetwo } },
     ],
   })
     .then((book) => {

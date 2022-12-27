@@ -368,13 +368,14 @@ router.get("/book/filter/:category", (req, res) => {
 });
 
 // route to get books filtered through price by all user
-router.get("/book/pricefilter", (req, res) => {
+router.get("/book/pricefilter/:priceone/:pricetwo", (req, res) => {
+  console.log(req.body);
   Book.find({
     $and: [
       { status: "Approved" },
       { is_available: true },
-      { rent_cost_perday: { $gte: req.body.priceone } },
-      { rent_cost_perday: { $lte: req.body.pricetwo } },
+      { rent_cost_perday: { $gte: req.params.priceone } },
+      { rent_cost_perday: { $lte: req.params.pricetwo } },
     ],
   })
     .then((book) => {
