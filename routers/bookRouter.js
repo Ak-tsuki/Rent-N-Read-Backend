@@ -96,7 +96,7 @@ router.get("/book/getone/:id", (req, res) => {
   Book.findOne({
     _id: req.params.id,
   })
-  .populate("bookOwner")
+    .populate("bookOwner")
     .then((book) => {
       if (book != null) {
         res.status(200).json({
@@ -313,5 +313,86 @@ router.get("/book/getauthor/:author", (req, res) => {
       });
     });
 });
+
+// route to get books by all user
+router.get("/book/filter/:category", (req, res) => {
+  Book.find({
+    $and: [
+      { status: "Approved" },
+      { is_available: true },
+      { category: req.params.category },
+    ],
+  })
+    .then((book) => {
+      console.log("hgghg");
+      if (book != null) {
+        console.log(book);
+        // Book.find({ category: { $in: book.category } }).then((book) => {
+        //   res.status(200).json({
+        //     success: true,
+        //     data: book,
+        //   });
+        // });
+        res.status(200).json({
+          success: true,
+          data: book,
+        });
+      }
+    })
+    .catch((e) => {
+      res.status(400).json({
+        msg: e,
+      });
+    });
+});
+
+// route to get books by all user
+router.get("/book/filter", (req, res) => {
+  Book.find({
+    $and: [
+      { status: "Approved" },
+      { is_available: true },
+      { category: { $in: req.body.category } },
+    ],
+  })
+    .then((book) => {
+      console.log("hgghg");
+      if (book != null) {
+        console.log(book);
+        res.status(200).json({
+          success: true,
+          data: book,
+        });
+      }
+    })
+    .catch((e) => {
+      res.status(400).json({
+        msg: e,
+      });
+    });
+});
+
+// //book filter by category
+// router.get("/book/filter", auth.userGuard, (req, res) => {
+//   Book.find()
+//     .then((book) => {
+//       if (book != null) {
+//         Book.findOne({ _id: rent.bookId }).then((mainbook) => {
+//           console.log(mainbook.category);
+//           Book.find({ category: { $in: mainbook.category } }).then((book) => {
+//             res.status(200).json({
+//               success: true,
+//               data: book,
+//             });
+//           });
+//         });
+//       }
+//     })
+//     .catch((e) => {
+//       res.status(400).json({
+//         msg: e,
+//       });
+//     });
+// });
 
 module.exports = router;

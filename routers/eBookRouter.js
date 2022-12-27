@@ -173,4 +173,62 @@ router.get("/bought_ebooks/get", auth.userGuard, (req, res) => {
     });
 });
 
+// route to get books by all user
+router.get("/ebook/filter/:category", (req, res) => {
+  EBook.find({
+    $and: [
+      { status: "Approved" },
+      { is_available: true },
+      { category: req.params.category },
+    ],
+  })
+    .then((ebook) => {
+      console.log("hgghg");
+      if (ebook != null) {
+        console.log(ebook);
+        // Book.find({ category: { $in: book.category } }).then((book) => {
+        //   res.status(200).json({
+        //     success: true,
+        //     data: book,
+        //   });
+        // });
+        res.status(200).json({
+          success: true,
+          data: ebook,
+        });
+      }
+    })
+    .catch((e) => {
+      res.status(400).json({
+        msg: e,
+      });
+    });
+});
+
+// route to get books by all user
+router.get("/ebook/filter", (req, res) => {
+  EBook.find({
+    $and: [
+      { status: "Approved" },
+      { is_available: true },
+      { category: { $in: req.body.category } },
+    ],
+  })
+    .then((ebook) => {
+      console.log("hgghg");
+      if (ebook != null) {
+        console.log(ebook);
+        res.status(200).json({
+          success: true,
+          data: ebook,
+        });
+      }
+    })
+    .catch((e) => {
+      res.status(400).json({
+        msg: e,
+      });
+    });
+});
+
 module.exports = router;

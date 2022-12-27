@@ -149,5 +149,62 @@ router.get("/audiobook/getauthor/:author", (req, res) => {
     });
 });
 
+// route to get books by all user
+router.get("/audiobook/filter/:category", (req, res) => {
+  AudioBook.find({
+    $and: [
+      { status: "Approved" },
+      { is_available: true },
+      { category: req.params.category },
+    ],
+  })
+    .then((audiobook) => {
+      console.log("hgghg");
+      if (audiobook != null) {
+        console.log(audiobook);
+        // Book.find({ category: { $in: book.category } }).then((book) => {
+        //   res.status(200).json({
+        //     success: true,
+        //     data: book,
+        //   });
+        // });
+        res.status(200).json({
+          success: true,
+          data: audiobook,
+        });
+      }
+    })
+    .catch((e) => {
+      res.status(400).json({
+        msg: e,
+      });
+    });
+});
+
+// route to get books by all user
+router.get("/audiobook/filter", (req, res) => {
+  AudioBook.find({
+    $and: [
+      { status: "Approved" },
+      { is_available: true },
+      { category: { $in: req.body.category } },
+    ],
+  })
+    .then((audiobook) => {
+      console.log("hgghg");
+      if (audiobook != null) {
+        console.log(audiobook);
+        res.status(200).json({
+          success: true,
+          data: audiobook,
+        });
+      }
+    })
+    .catch((e) => {
+      res.status(400).json({
+        msg: e,
+      });
+    });
+});
 
 module.exports = router;
