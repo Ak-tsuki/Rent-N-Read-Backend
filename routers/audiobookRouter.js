@@ -70,7 +70,7 @@ router.post(
   }
 );
 
-//Router To Update EBook
+//Router To Update AudioBook
 router.put(
   "/audiobook/update",
   auth.adminGuard,
@@ -85,19 +85,9 @@ router.put(
     },
   ]),
   (req, res) => {
-    if (req.files.book_img == undefined) {
-      return res.status(401).json({
-        msg: "Invalid Image format",
-      });
-    }
-    if (req.files.audio_book == undefined) {
-      return res.status(401).json({
-        msg: "Invalid Ebook format",
-      });
-    }
     const name = req.body.name;
     const rich_desc = req.body.rich_desc;
-    // const desc = req.body.desc;
+    const desc = req.body.desc;
     const author = req.body.author;
     const category = req.body.category.split(",");
     const rent_cost_perday = req.body.rent_cost_perday;
@@ -110,7 +100,7 @@ router.put(
         {
           name: name,
           rich_desc: rich_desc,
-          // desc: desc,
+          desc: desc,
           author: author,
           category: category,
           rent_cost_perday: rent_cost_perday,
@@ -131,7 +121,7 @@ router.put(
         {
           name: name,
           rich_desc: rich_desc,
-          // desc: desc,
+          desc: desc,
           author: author,
           category: category,
           rent_cost_perday: rent_cost_perday,

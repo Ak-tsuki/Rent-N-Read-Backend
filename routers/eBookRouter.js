@@ -88,16 +88,6 @@ router.put(
     },
   ]),
   (req, res) => {
-    if (req.files.book_img == undefined) {
-      return res.status(401).json({
-        msg: "Invalid Image format",
-      });
-    }
-    if (req.files.e_book == undefined) {
-      return res.status(401).json({
-        msg: "Invalid Ebook format",
-      });
-    }
     const name = req.body.name;
     const rich_desc = req.body.rich_desc;
     const desc = req.body.desc;
