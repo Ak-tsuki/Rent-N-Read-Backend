@@ -97,7 +97,7 @@ router.put(
     const price = req.body.price;
     const id = req.body._id;
     console.log(name);
-    if (req.file == undefined) {
+    if (req.files.book_img == undefined && req.files.e_book == undefined) {
       EBook.updateOne(
         { _id: id },
         {
@@ -117,6 +117,54 @@ router.put(
         })
         .catch((e) => {
           res.status(400).json({ msg: e });
+        });
+    } else if (req.files.book_img == undefined) {
+      EBook.updateOne(
+        { _id: id },
+        {
+          name: name,
+          rich_desc: rich_desc,
+          desc: desc,
+          author: author,
+          category: category,
+          rent_cost_perday: rent_cost_perday,
+          price: price,
+          e_book: req.files.e_book[0].filename,
+        }
+      )
+        .then(() => {
+          res
+            .status(201)
+            .json({ msg: "EBook Updated Successfully", success: true });
+        })
+        .catch((e) => {
+          res
+            .status(400)
+            .json({ msg: "Something Went Wrong, Please Try Again!!!" });
+        });
+    } else if (req.files.e_book == undefined) {
+      EBook.updateOne(
+        { _id: id },
+        {
+          name: name,
+          rich_desc: rich_desc,
+          desc: desc,
+          author: author,
+          category: category,
+          rent_cost_perday: rent_cost_perday,
+          price: price,
+          book_pic: req.files.book_img[0].filename,
+        }
+      )
+        .then(() => {
+          res
+            .status(201)
+            .json({ msg: "EBook Updated Successfully", success: true });
+        })
+        .catch((e) => {
+          res
+            .status(400)
+            .json({ msg: "Something Went Wrong, Please Try Again!!!" });
         });
     } else {
       EBook.updateOne(
