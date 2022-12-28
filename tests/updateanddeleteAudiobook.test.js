@@ -24,8 +24,8 @@ test("Update details of Audiobooks", async () => {
     .expect(201);
 });
 
-// Deleteing ebook
-test("Delete Ebook", async () => {
+// Deleteing Audiobook
+test("Delete Audiobook by id", async () => {
   await request(app)
     .delete("/audiobook/delete/63ac24435affc4a8f8f286bc")
     .set("Authorization", token)
