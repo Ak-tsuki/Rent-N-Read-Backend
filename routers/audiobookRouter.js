@@ -70,6 +70,104 @@ router.post(
   }
 );
 
+//Router To Update EBook
+router.put(
+  "/audiobook/update",
+  auth.adminGuard,
+  uploadFile.fields([
+    {
+      name: "book_img",
+      maxCount: 1,
+    },
+    {
+      name: "audio_book",
+      maxCount: 1,
+    },
+  ]),
+  (req, res) => {
+    if (req.files.book_img == undefined) {
+      return res.status(401).json({
+        msg: "Invalid Image format",
+      });
+    }
+    if (req.files.audio_book == undefined) {
+      return res.status(401).json({
+        msg: "Invalid Ebook format",
+      });
+    }
+    const name = req.body.name;
+    const rich_desc = req.body.rich_desc;
+    // const desc = req.body.desc;
+    const author = req.body.author;
+    const category = req.body.category.split(",");
+    const rent_cost_perday = req.body.rent_cost_perday;
+    const price = req.body.price;
+    const id = req.body._id;
+    console.log(name);
+    if (req.file == undefined) {
+      AudioBook.updateOne(
+        { _id: id },
+        {
+          name: name,
+          rich_desc: rich_desc,
+          // desc: desc,
+          author: author,
+          category: category,
+          rent_cost_perday: rent_cost_perday,
+          price: price,
+        }
+      )
+        .then(() => {
+          res
+            .status(201)
+            .json({ msg: "AudioBook Updated Successfully", success: true });
+        })
+        .catch((e) => {
+          res.status(400).json({ msg: e });
+        });
+    } else {
+      AudioBook.updateOne(
+        { _id: id },
+        {
+          name: name,
+          rich_desc: rich_desc,
+          // desc: desc,
+          author: author,
+          category: category,
+          rent_cost_perday: rent_cost_perday,
+          price: price,
+          book_pic :req.files.book_img[0].filename,
+          audio_book : req.files.audio_book[0].filename,
+        }
+      )
+        .then(() => {
+          res
+            .status(201)
+            .json({ msg: "AudioBook Updated Successfully", success: true });
+        })
+        .catch((e) => {
+          res
+            .status(400)
+            .json({ msg: "Something Went Wrong, Please Try Again!!!" });
+        });
+    }
+  }
+);
+
+//Router To Delete Book
+router.delete("/audiobook/delete/:audiobookId", auth.adminGuard, (req, res) => {
+  console.log(req.params.audiobookId);
+  EBook.deleteOne({ _id: req.params.audiobookId })
+    .then(() => {
+      res.status(201).json({ msg: "EBook Deleted Successfully", success: true });
+    })
+    .catch((e) => {
+      res
+        .status(400)
+        .json({ msg: "Something Went Wrong, Please Try Again!!!" });
+    });
+});
+
 // route to get audiobooks by admin
 router.get("/audiobook/getbyadmin", auth.adminGuard, (req, res) => {
   AudioBook.find()
