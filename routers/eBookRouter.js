@@ -139,8 +139,8 @@ router.put(
           category: category,
           rent_cost_perday: rent_cost_perday,
           price: price,
-          book_pic : req.files.book_img[0].filename,
-          e_book : req.files.e_book[0].filename,
+          book_pic: req.files.book_img[0].filename,
+          e_book: req.files.e_book[0].filename,
         }
       )
         .then(() => {
@@ -162,7 +162,9 @@ router.delete("/Ebook/delete/:EbookId", auth.adminGuard, (req, res) => {
   console.log(req.params.EbookId);
   EBook.deleteOne({ _id: req.params.EbookId })
     .then(() => {
-      res.status(201).json({ msg: "EBook Deleted Successfully", success: true });
+      res
+        .status(201)
+        .json({ msg: "EBook Deleted Successfully", success: true });
     })
     .catch((e) => {
       res
