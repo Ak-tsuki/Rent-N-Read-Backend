@@ -3,10 +3,6 @@ const Schema = mongoose.Schema;
 
 const Contactus = new mongoose.Schema(
   {
-    adminID: {
-      type: mongoose.Schema.Types.ObjectId,
-      required: true,
-    },
     first_name: {
       type: String,
       required: true,
