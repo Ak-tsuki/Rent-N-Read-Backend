@@ -3,7 +3,14 @@ const express = require("express");
 const cors = require("cors");
 const passport = require("passport");
 const cookieSession = require("cookie-session");
+const bodyParser = require("body-parser");
+const nodemailer = require("nodemailer");
 const app = express();
+
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
+
+app.use(cors());
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -56,6 +63,8 @@ const thirdpartyRouter = require("./routers/thirdpartyRouter");
 const conversationRouter = require("./routers/conversationRouter");
 const messageRouter = require("./routers/messageRouter");
 
+const contactusRouter = require("./routers/contactusRouter");
+
 app.use(userRouter);
 app.use(bookRouter);
 app.use(audiobookRouter);
@@ -74,6 +83,8 @@ app.use("/thirdpartyRouter", thirdpartyRouter);
 // message
 app.use(conversationRouter);
 app.use(messageRouter);
+
+app.use(contactusRouter);
 
 const server = app.listen(90);
 
