@@ -35,35 +35,41 @@ router.post("/contactus/send", (req, res) => {
         msg: e,
       });
     });
+});
 
-  //   const transporter = nodemailer.createTransport({
-  //     service: "gmail",
-  //     auth: {
-  //       user: process.env.GMAIL_USER,
-  //       pass: process.env.PASSWORD,
-  //     },
-  //   });
+router.post("/contactus/reply", (req, res) => {
+  const transporter = nodemailer.createTransport({
+    service: "gmail",
+    auth: {
+      user: "tsukiak2@gmail.com",
+      pass: "tfvkvcpsdhyefikb",
+    },
+  });
 
-  //   const mailOption = {
-  //     from: process.env.GMAIL_USER,
-  //     to: email ,
-  //     subject: ${subject},
-  //     html: `You got a message from
-  //     Email : ${process.env.GMAIL_USER}
-  //     Name: "Akatsuki"
-  //     Message: ${message}`,
-  //
-  //   };
+  const mailOption = {
+    from: "tsukiak2@gmail.com",
+    to: req.body.email,
+    subject: "Email replied from RentNRead",
+    html: `You got a message from
+      Email : "tsukiak2@gmail.com"
+      Name: "RentNRead"
+      Message: ${req.body.message}`,
+  };
 
-  //   transporter.sendMail(mailOption, (error, response) => {
-  //     if (error) {
-  //       res.send(error);
-  //     } else {
-  //       res.send("Success");
-  //     }
-  //   });
+  transporter.sendMail(mailOption, (error, response) => {
+    if (error) {
+      res.status(400).json({
+        msg: e,
+      });
+    } else {
+      res.status(201).json({
+        success: true,
+        msg: "Successfully sent",
+      });
+    }
+  });
 
-  //   transporter.close();
+  transporter.close();
 });
 
 router.get("/getemails", (req, res) => {
@@ -84,10 +90,10 @@ router.get("/getemails", (req, res) => {
     });
 });
 
-router.put("/contactus/resolved", (req, res) => {
+router.put("/contactus/resolved/:id", (req, res) => {
   Contactus.updateOne(
     {
-      _id: req.body.id,
+      _id: req.params.id,
     },
     {
       status: "Resolved",
@@ -105,24 +111,16 @@ router.put("/contactus/resolved", (req, res) => {
     });
 });
 
-// router.put("/contactus/pending", (req, res) => {
-//   Contactus.updateOne(
-//     {
-//       _id: req.body.id,
-//     },
-//     {
-//       status: "Pending",
-//     }
-//   )
-//     .then(() => {
-//       res.status(201).json({
-//         msg: "Prolem Resolved",
-//       });
-//     })
-//     .catch((e) => {
-//       res.status(400).json({
-//         msg: e,
-//       });
-//     });
-// });
+router.delete("/contactus/delete/:id", (req, res) => {
+  console.log(req.params._id);
+  Contactus.deleteOne({ _id: req.params.id })
+    .then(() => {
+      res.status(201).json({ msg: "Deleted Successfully", success: true });
+    })
+    .catch((e) => {
+      res
+        .status(400)
+        .json({ msg: "Something Went Wrong, Please Try Again!!!" });
+    });
+});
 module.exports = router;

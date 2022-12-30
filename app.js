@@ -7,13 +7,13 @@ const bodyParser = require("body-parser");
 const nodemailer = require("nodemailer");
 const app = express();
 
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
+// app.use(bodyParser.json());
+// app.use(bodyParser.urlencoded({ extended: false }));
 
 app.use(cors());
 
 app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
+app.use(express.urlencoded({ extended: true }));
 
 app.use(express.static(__dirname + "/bookImgs"));
 app.use(express.static(__dirname + "/audiobooks"));
