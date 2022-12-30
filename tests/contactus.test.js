@@ -25,3 +25,24 @@ test("Contact with admin of the website", async () => {
       ]);
     });
 });
+
+// Reply by admin to the sender
+test("Reply by admin to the sender", async () => {
+  await request(app)
+    .post("/contactus/reply")
+    .send({
+      reply: "add book rent book and buy book",
+      email: "shakyarijwol09@gmail.com"
+      
+    })
+    .expect("Content-Type", /json/)
+    .expect(201)
+    // .then(() => {
+    //   expect.arrayContaining([
+    //     expect.objectContaining({
+    //       msg: "Successfully sent",
+    //       success: true,
+    //     }),
+    //   ]);
+    // });
+});
