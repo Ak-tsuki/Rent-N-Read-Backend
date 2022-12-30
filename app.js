@@ -55,6 +55,7 @@ const buyaudiobookRouter = require("./routers/buyaudiobookRouter");
 const buyEbookRouter = require("./routers/buyEbookRouter");
 const rentEBookRouter = require("./routers/rentEbookRouter");
 const wishlistRouter = require("./routers/wishlistRouter");
+const reviewRouter = require("./routers/reviewRouter");
 
 const passportSetup = require("./passport");
 const thirdpartyRouter = require("./routers/thirdpartyRouter");
@@ -77,6 +78,7 @@ app.use(buyaudiobookRouter);
 app.use(buyEbookRouter);
 app.use(rentEBookRouter);
 app.use(wishlistRouter);
+app.use(reviewRouter);
 
 app.use("/thirdpartyRouter", thirdpartyRouter);
 
