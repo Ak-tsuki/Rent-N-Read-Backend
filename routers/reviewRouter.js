@@ -4,7 +4,7 @@ const Review = require("../models/reviewModel");
 const auth = require("../middleware/auth");
 
 router.post("/add_review", auth.userGuard, (req, res) => {
-  const data = Review({
+  const data = new Review({
     bookId: req.body.bookId,
     ebookId: req.body.ebookId,
     audioBookId: req.body.audioBookId,
