@@ -53,13 +53,13 @@ router.post("/contactus/reply", (req, res) => {
     html: `You got a message from
       Email : "tsukiak2@gmail.com"
       Name: "RentNRead"
-      Message: ${req.body.message}`,
+      Message: ${req.body.reply}`,
   };
 
   transporter.sendMail(mailOption, (error, response) => {
     if (error) {
       res.status(400).json({
-        msg: e,
+        msg: error,
       });
     } else {
       res.status(201).json({
@@ -90,10 +90,10 @@ router.get("/getemails", (req, res) => {
     });
 });
 
-router.put("/contactus/resolved/:id", (req, res) => {
+router.put("/contactus/resolved/:_id", (req, res) => {
   Contactus.updateOne(
     {
-      _id: req.params.id,
+      _id: req.params._id,
     },
     {
       status: "Resolved",
