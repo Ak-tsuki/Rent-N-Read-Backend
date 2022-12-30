@@ -28,4 +28,50 @@ router.post("/add_review", auth.userGuard, (req, res) => {
     });
 });
 
+router.get("/get/book_reviews/:id", (req, res) => {
+  Review.find({ bookId: req.params.id })
+    .then((reviews) => {
+      res.status(200).json({
+        success: true,
+        reviews: reviews,
+      });
+    })
+    .catch((e) => {
+      res.status(404).json({
+        success: false,
+        msg: "No reviews found",
+      });
+    });
+});
+router.get("/get/ebook_reviews/:id", (req, res) => {
+  Review.find({ ebookId: req.params.id })
+    .then((reviews) => {
+      res.status(200).json({
+        success: true,
+        reviews: reviews,
+      });
+    })
+    .catch((e) => {
+      res.status(404).json({
+        success: false,
+        msg: "No reviews found",
+      });
+    });
+});
+router.get("/get/audiobook_reviews/:id", (req, res) => {
+  Review.find({ audioBookId: req.params.id })
+    .then((reviews) => {
+      res.status(200).json({
+        success: true,
+        reviews: reviews,
+      });
+    })
+    .catch((e) => {
+      res.status(404).json({
+        success: false,
+        msg: "No reviews found",
+      });
+    });
+});
+
 module.exports = router;
