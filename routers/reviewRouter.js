@@ -30,6 +30,7 @@ router.post("/add_review", auth.userGuard, (req, res) => {
 
 router.get("/get/book_reviews/:id", (req, res) => {
   Review.find({ bookId: req.params.id })
+    .populate("userId")
     .then((reviews) => {
       res.status(200).json({
         success: true,
@@ -45,6 +46,7 @@ router.get("/get/book_reviews/:id", (req, res) => {
 });
 router.get("/get/ebook_reviews/:id", (req, res) => {
   Review.find({ ebookId: req.params.id })
+    .populate("userId")
     .then((reviews) => {
       res.status(200).json({
         success: true,
@@ -60,6 +62,7 @@ router.get("/get/ebook_reviews/:id", (req, res) => {
 });
 router.get("/get/audiobook_reviews/:id", (req, res) => {
   Review.find({ audioBookId: req.params.id })
+    .populate("userId")
     .then((reviews) => {
       res.status(200).json({
         success: true,
