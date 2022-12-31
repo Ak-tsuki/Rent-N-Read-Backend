@@ -66,6 +66,8 @@ const messageRouter = require("./routers/messageRouter");
 
 const contactusRouter = require("./routers/contactusRouter");
 
+const otpRouter = require("./routers/otpRouter");
+
 app.use(userRouter);
 app.use(bookRouter);
 app.use(audiobookRouter);
@@ -87,6 +89,8 @@ app.use(conversationRouter);
 app.use(messageRouter);
 
 app.use(contactusRouter);
+
+app.use(otpRouter);
 
 const server = app.listen(90);
 
