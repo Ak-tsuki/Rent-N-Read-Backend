@@ -3,7 +3,8 @@ const router = express.Router();
 
 //Model Imports
 const Book = require("../models/bookModel");
-
+const AudioBook = require("../models/audiobookModel");
+const Ebook = require("../models/e_bookModel");
 const auth = require("../middleware/auth");
 const uploadFile = require("../file/uploadFile");
 
@@ -391,6 +392,25 @@ router.get("/book/pricefilter/:priceone/:pricetwo", (req, res) => {
         msg: e,
       });
     });
+});
+
+router.get("/books/count", async (req, res) => {
+  let count = 0;
+  try {
+    count += await Book.count();
+    count += await AudioBook.count();
+    count += await Ebook.count();
+
+    res.status(200).json({
+      success: true,
+      count: count,
+    });
+  } catch (e) {
+    res.status(400).json({
+      success: false,
+      error: e,
+    });
+  }
 });
 
 module.exports = router;

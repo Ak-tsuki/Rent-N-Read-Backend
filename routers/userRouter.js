@@ -332,4 +332,20 @@ router.put("/password/updateadmin", auth.adminGuard, (req, res) => {
     });
 });
 
+router.get("/users/count", async (req, res) => {
+  let count = 0;
+  try {
+    count += await User.count();
+    res.status(200).json({
+      success: true,
+      count: count,
+    });
+  } catch (e) {
+    res.status(400).json({
+      success: false,
+      error: e,
+    });
+  }
+});
+
 module.exports = router;
