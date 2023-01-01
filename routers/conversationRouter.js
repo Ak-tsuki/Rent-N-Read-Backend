@@ -2,6 +2,7 @@ const express = require("express");
 const router = new express.Router();
 const Conversation = require("../models/coversationModel");
 const auth = require("../middleware/auth");
+const User = require("../models/userModel");
 
 // new conversation
 router.post("/conversation/post", auth.userGuard, (req, res) => {
@@ -58,6 +59,26 @@ router.get("/conversation/getbyusername/:userId", async (req, res) => {
       msg: e,
     });
   }
+});
+
+router.get("/conversation/get_userimg/:username", (req, res) => {
+  User.findOne({
+    username: req.params.username,
+  })
+    .then((data) => {
+      if (data != null) {
+        console.log(data)
+        res.status(200).json({
+          success: true,
+          data: data.profile_pic,
+        });
+      }
+    })
+    .catch((e) => {
+      res.status(400).json({
+        msg: e,
+      });
+    });
 });
 
 module.exports = router;
