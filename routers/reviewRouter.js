@@ -77,4 +77,35 @@ router.get("/get/audiobook_reviews/:id", (req, res) => {
     });
 });
 
+router.get("/check/reviewexist/:id", auth.userGuard, (req, res) => {
+  Review.findOne({
+    $and: [
+      { userId: req.userInfo._id },
+      {
+        $or: [
+          { bookId: req.params.id },
+          { ebookId: req.params.id },
+          { audioBookId: req.params.id },
+        ],
+      },
+    ],
+  })
+    .then((data) => {
+      if (data !== null) {
+        res.status(200).json({
+          success: true,
+        });
+      } else {
+        res.status(200).json({
+          success: false,
+        });
+      }
+    })
+    .catch((e) => {
+      res.status(404).json({
+        success: false,
+      });
+    });
+});
+
 module.exports = router;
